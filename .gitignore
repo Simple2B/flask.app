@@ -1,0 +1,11 @@
+# ignore directories
+__pycache__/
+env/
+.venv/
+.pytest_cache/
+
+# ignore files
+.flaskenv
+.env
+*.pyc
+/*.sqlite3
