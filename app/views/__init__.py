@@ -1,2 +1,3 @@
-from .auth import auth_blueprint  # noqa f401
-from .main import main_blueprint  # noqa f401
+# flake8: noqa F401
+from .auth import auth_blueprint
+from .main import main_blueprint

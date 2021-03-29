@@ -1,1 +1,2 @@
-from .auth import LoginForm, RegistrationForm  # noqa f401
+# flake8: noqa F401
+from .auth import LoginForm, RegistrationForm

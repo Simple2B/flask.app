@@ -10,7 +10,7 @@ login_manager = LoginManager()
 db = SQLAlchemy()
 
 
-def create_app(environment='development'):
+def create_app(environment="development"):
 
     from config import config
     from app.views import (
@@ -26,7 +26,7 @@ def create_app(environment='development'):
     app = Flask(__name__)
 
     # Set app config.
-    env = os.environ.get('FLASK_ENV', environment)
+    env = os.environ.get("FLASK_ENV", environment)
     app.config.from_object(config[env])
     config[env].configure(app)
 
@@ -43,13 +43,13 @@ def create_app(environment='development'):
     def get_user(id):
         return User.query.get(int(id))
 
-    login_manager.login_view = 'auth.login'
-    login_manager.login_message_category = 'info'
+    login_manager.login_view = "auth.login"
+    login_manager.login_message_category = "info"
     login_manager.anonymous_user = AnonymousUser
 
     # Error handlers.
     @app.errorhandler(HTTPException)
     def handle_http_error(exc):
-        return render_template('error.html', error=exc), exc.code
+        return render_template("error.html", error=exc), exc.code
 
     return app
