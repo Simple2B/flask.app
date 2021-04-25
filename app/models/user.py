@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask_login import UserMixin, AnonymousUserMixin
+from sqlalchemy import func
 from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -30,7 +31,7 @@ class User(db.Model, UserMixin, ModelMixin):
     @classmethod
     def authenticate(cls, user_id, password):
         user = cls.query.filter(
-            db.or_(cls.username == user_id, cls.email == user_id)
+            db.or_(func.lower(cls.username) == func.lower(user_id), func.lower(cls.email) == func.lower(user_id))
         ).first()
         if user is not None and check_password_hash(user.password, password):
             return user
