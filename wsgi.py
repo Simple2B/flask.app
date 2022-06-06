@@ -10,7 +10,7 @@ app = create_app()
 @app.shell_context_processor
 def get_context():
     """Objects exposed here will be automatically available from the shell."""
-    return dict(app=app, db=db, models=models, forms=forms)
+    return dict(app=app, db=db, m=models, f=forms)
 
 
 @app.cli.command()
