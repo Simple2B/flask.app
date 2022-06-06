@@ -1,6 +1,4 @@
 #!/user/bin/env python
-import click
-
 from app import create_app, db, models, forms
 
 app = create_app()
