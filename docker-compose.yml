@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:12
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATABASE: ${POSTGRES_DB}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGUSER: ${POSTGRES_USER}
+    ports:
+      - 127.0.0.1:${LOCAL_DB_PORT}:5432
+
+  app:
+    build: .
+    restart: always
+    command: bash ./start_server.sh
+    env_file:
+      - .env
+    environment:
+      FLASK_ENV: production
+    depends_on:
+      - db
+    ports:
+      - 127.0.0.1:${LOCAL_WEB_PORT}:5000
+
+volumes:
+  db_data:
