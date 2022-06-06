@@ -14,16 +14,9 @@ def get_context():
 
 
 @app.cli.command()
-def create_db():
+def example_command():
     """Create the configured database."""
-    db.create_all()
-
-
-@app.cli.command()
-@click.confirmation_option(prompt="Drop all database tables?")
-def drop_db():
-    """Drop the current database."""
-    db.drop_all()
+    print("Hello World!!!")
 
 
 if __name__ == "__main__":

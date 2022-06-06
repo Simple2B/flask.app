@@ -9,5 +9,9 @@
         "**/.git/subtree-cache/**": true,
         "**/node_modules/*/**": true,
         "**/.venv/*/**": true
-    }
+    },
+    "cSpell.words": [
+        "sqlalchemy",
+        "werkzeug"
+    ]
 }
