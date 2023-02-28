@@ -5,7 +5,7 @@
 <div class="jumbotron my-4">
   <div class="text-center">
     <!-- prettier-ignore -->
-    <h1>{{ f'{error.code} - {error.name}' }}</h1>
+    <h1>{{ '{} - {}'.format(error.code, error.name) }}</h1>
     <p>{{ error.description }}.</p>
   </div>
 </div>
