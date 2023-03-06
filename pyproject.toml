@@ -21,6 +21,7 @@ SQLAlchemy = "^1.4.32"
 Werkzeug = "2.0.0"
 Flask-Migrate = "^3.1.0"
 psycopg2-binary = "^2.9.5"
+flask-mail = "^0.9.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
