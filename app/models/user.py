@@ -10,6 +10,10 @@ from app import db
 from app.models.utils import ModelMixin
 
 
+def gen_password_reset_id() -> str:
+    return str(uuid4())
+
+
 class User(db.Model, UserMixin, ModelMixin):
 
     __tablename__ = "users"
@@ -20,7 +24,7 @@ class User(db.Model, UserMixin, ModelMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     activated = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    unique_id = db.Column(db.String(36), default=(lambda _: str(uuid4())))
+    unique_id = db.Column(db.String(36), default=gen_password_reset_id)
 
     @hybrid_property
     def password(self):
