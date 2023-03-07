@@ -1,5 +1,6 @@
 import re
 from flask_mail import Message
+from flask import url_for
 
 from app import mail
 from app import models as m
@@ -48,12 +49,11 @@ def test_register(client):
         html: str = letter.html
         pattern = r"https?:\/\/[\w\d\.-]+\/activated\/[\w\d-]{36}"
         urls = re.findall(pattern, html)
-        url = urls[0] if urls else None
-        response = client.get(
-            url,
-            follow_redirects=True,
-        )
-        assert response.status_code == 200
+        assert len(urls) == 1
+        url = urls[0]
+        response = client.get(url)
+        assert response.status_code == 302
+        response.location == url_for("main.index")
         user: m.User = m.User.query.filter_by(email=TEST_EMAIL).first()
         assert user
         assert user.activated
