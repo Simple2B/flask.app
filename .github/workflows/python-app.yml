@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: [3.11]
-        poetry-version: [1.3.2]
+        poetry-version: [1.4]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
@@ -25,8 +25,8 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Setup poetry
-        uses: abatilo/actions-poetry@v2.0.0
+      - name: Python Poetry Action
+        uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
@@ -38,4 +38,4 @@ jobs:
           poetry run flake8 . --count --exit-zero --max-complexity=10 --statistics
       - name: Run Flask tests
         run: |
-          poetry run pytest tests/test_auth.py
+          poetry run pytest
