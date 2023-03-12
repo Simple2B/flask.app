@@ -5,27 +5,27 @@ name: Simple Flask Application CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, develop_tw]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, develop_tw]
 
 jobs:
   tests:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        python-version: [3.11]
+        python-version: [3.11, 3.10]
         poetry-version: [1.4]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Python Poetry Action
+      - name: Set up Poetry
         uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
