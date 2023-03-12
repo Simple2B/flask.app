@@ -21,8 +21,10 @@
     <!-- Header -->
     {% include 'header.html' %}
     <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %} {% for category, message in messages %}
+    <!-- prettier-ignore -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
     <div
       class="close-js absolute max-w-xs bg-gray-500 text-sm text-white rounded-md shadow-lg mb-3 ml-3"
       role="alert"
@@ -43,7 +45,10 @@
         </div>
       </div>
     </div>
-    {% endfor %} {% endif %} {% endwith %}
+    <!-- prettier-ignore -->
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <!-- Main Content -->
     {% block content %}{% endblock %}
     <!-- Footer-->

@@ -17,8 +17,7 @@ def test_auth_pages(client):
 
 
 def test_register(client):
-    # TEST_EMAIL = "sam@test.com"
-    TEST_EMAIL = "saintkos117@gmail.com"
+    TEST_EMAIL = "sam@test.com"
 
     with mail.record_messages() as outbox:
 
