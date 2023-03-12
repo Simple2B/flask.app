@@ -5,28 +5,28 @@ name: Simple Flask Application CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, develop_tw]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, develop_tw]
 
 jobs:
   tests:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         python-version: [3.11]
-        poetry-version: [1.3.2]
-        os: [ubuntu-latest]
+        poetry-version: [1.4]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Setup poetry
-        uses: abatilo/actions-poetry@v2.0.0
+      - name: Set up Poetry
+        uses: abatilo/actions-poetry@v2.1.6
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
@@ -38,4 +38,4 @@ jobs:
           poetry run flake8 . --count --exit-zero --max-complexity=10 --statistics
       - name: Run Flask tests
         run: |
-          poetry run pytest tests/test_auth.py
+          poetry run pytest
