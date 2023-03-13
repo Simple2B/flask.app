@@ -19,9 +19,9 @@ class BaseConfig(object):
     MAIL_PORT = int(os.getenv("MAIL_PORT", "465"))
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "admin@simple2b.com")
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "!need_set_pass!")
-    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "admin@simple2b.com")
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "!setup in .env!")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "!setup in .env!")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "!setup in .env!")
 
     @staticmethod
     def configure(app):

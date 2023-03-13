@@ -31,7 +31,7 @@ def create_app(environment="development"):
     app = Flask(__name__)
 
     # Set app config.
-    env = os.environ.get("FLASK_ENV", environment)
+    env = os.environ.get("APP_ENV", environment)
     app.config.from_object(config[env])
     config[env].configure(app)
 

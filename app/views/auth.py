@@ -34,7 +34,7 @@ def register():
         )
 
         msg.html = render_template(
-            "email/confirm.html",
+            "email/confirm.htm",
             user=user,
             url=url,
             config=conf,

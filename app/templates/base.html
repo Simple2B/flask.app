@@ -21,9 +21,9 @@
     <!-- Header -->
     {% include 'header.html' %}
     <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
     <!-- prettier-ignore -->
-    {% if messages %} 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
     {% for category, message in messages %}
     <div
       class="close-js absolute max-w-xs bg-gray-500 text-sm text-white rounded-md shadow-lg mb-3 ml-3"
