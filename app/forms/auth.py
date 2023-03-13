@@ -45,10 +45,10 @@ class ForgotForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     password = PasswordField(
         "Password",
-        [DataRequired(), EqualTo("confirm_password", message="Passwords must match")],
+        [DataRequired(), EqualTo("password_confirmation", message="Passwords must match")],
         render_kw={"placeholder": "Password"},
     )
-    confirm_password = PasswordField(
+    password_confirmation = PasswordField(
         "Repeat Password", render_kw={"placeholder": "Repeat Password"}
     )
     submit = SubmitField("Change password")

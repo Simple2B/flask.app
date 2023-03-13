@@ -91,19 +91,19 @@ def test_forgot(client):
             b"Password reset successful. For set new password please check your e-mail."
             in response.data
         )
+        user: m.User = m.User.query.filter(m.User.email == TEST_EMAIL).first()
+        assert user
 
         assert len(outbox) == 1
         letter = outbox[0]
         assert letter.subject == "Reset password"
-
-    user: m.User = m.User.query.filter(m.User.email == TEST_EMAIL).first()
-    assert user
+        assert ("/password_recovery/" + user.unique_id) in letter.html
 
     response = client.post(
         "/password_recovery/" + user.unique_id,
         data=dict(
             password="123456789",
-            confirm_password="123456789",
+            password_confirmation="123456789",
         ),
         follow_redirects=True,
     )

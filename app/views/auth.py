@@ -101,12 +101,12 @@ def forgot_pass():
             recipients=[user.email],
         )
         url = url_for(
-            "auth.forgot_pass",
+            "auth.password_recovery",
             reset_password_uid=user.unique_id,
             _external=True,
         )
         msg.html = render_template(
-            "email/remind.html",
+            "email/remind.htm",
             user=user,
             url=url,
             config=conf,
