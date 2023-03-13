@@ -6,6 +6,8 @@ from app import mail
 from app import models as m
 from tests.utils import register, login, logout
 
+TEST_EMAIL = "saintkos117@gmail.com"
+
 
 def test_auth_pages(client):
     response = client.get("/register")
@@ -14,12 +16,11 @@ def test_auth_pages(client):
     assert response.status_code == 200
     response = client.get("/logout")
     assert response.status_code == 302
+    response = client.get("/forgot")
+    assert response.status_code == 200
 
 
 def test_register(client):
-    # TEST_EMAIL = "sam@test.com"
-    TEST_EMAIL = "saintkos117@gmail.com"
-
     with mail.record_messages() as outbox:
 
         response = client.post(
@@ -57,6 +58,54 @@ def test_register(client):
         user: m.User = m.User.query.filter_by(email=TEST_EMAIL).first()
         assert user
         assert user.activated
+
+
+def test_forgot(client):
+    response = client.post(
+        "/forgot",
+        data=dict(
+            email=TEST_EMAIL,
+        ),
+        follow_redirects=True,
+    )
+    assert b"No registered user with this e-mail" in response.data
+
+    user = m.User(
+        username="sam",
+        email=TEST_EMAIL,
+        password="password",
+    )
+    user.save()
+    with mail.record_messages() as outbox:
+        response = client.post(
+            "/forgot",
+            data=dict(
+                email=TEST_EMAIL,
+            ),
+            follow_redirects=True,
+        )
+
+        assert (
+            b"Password reset successful. For set new password please check your e-mail."
+            in response.data
+        )
+
+        assert len(outbox) == 1
+        letter = outbox[0]
+        assert letter.subject == "Reset password"
+
+    user: m.User = m.User.query.filter(m.User.email == TEST_EMAIL).first()
+    assert user
+
+    response = client.post(
+        "/password_recovery/" + user.unique_id,
+        data=dict(
+            password="123456789",
+            confirm_password="123456789",
+        ),
+        follow_redirects=True,
+    )
+    assert b"Login successful." in response.data
 
 
 def test_login_and_logout(client):
