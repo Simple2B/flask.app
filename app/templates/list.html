@@ -1,0 +1,29 @@
+<!-- prettier-ignore -->
+{% extends 'base.html' %}
+{% block content %}
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">№</th>
+        <th scope="col">id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <!-- prettier-ignore -->
+    {% for i, user in enumerate(users) %}
+    <tbody>
+      <tr>
+        <th scope="row">{{ i+1 }}</td>
+        <td scope="row">{{ user.id }}</td>
+        <td scope="row">{{ user.username }}</td>
+        <td scope="row">{{ user.email }}</td>
+      </tr>
+    </tbody>
+    <!-- prettier-ignore -->
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %} {% block scripts %} {% endblock %}
