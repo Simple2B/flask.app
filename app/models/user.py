@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import uuid4
 
 from flask_login import UserMixin, AnonymousUserMixin
 from sqlalchemy import func
@@ -7,6 +8,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
 from app.models.utils import ModelMixin
+
+
+def gen_password_reset_id() -> str:
+    return str(uuid4())
 
 
 class User(db.Model, UserMixin, ModelMixin):
@@ -19,6 +24,7 @@ class User(db.Model, UserMixin, ModelMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     activated = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
+    unique_id = db.Column(db.String(36), default=gen_password_reset_id)
 
     @hybrid_property
     def password(self):
@@ -31,7 +37,10 @@ class User(db.Model, UserMixin, ModelMixin):
     @classmethod
     def authenticate(cls, user_id, password):
         user = cls.query.filter(
-            db.or_(func.lower(cls.username) == func.lower(user_id), func.lower(cls.email) == func.lower(user_id))
+            db.or_(
+                func.lower(cls.username) == func.lower(user_id),
+                func.lower(cls.email) == func.lower(user_id),
+            )
         ).first()
         if user is not None and check_password_hash(user.password, password):
             return user

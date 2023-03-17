@@ -10,8 +10,8 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "app:app",
-                "FLASK_ENV": "development",
+                "FLASK_APP": "wsgi:app",
+                "APP_ENV": "development",
                 "FLASK_DEBUG": "1"
             },
             "args": [

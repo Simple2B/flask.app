@@ -1,1 +1,1 @@
-// custom javascript
+// For your js code

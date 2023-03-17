@@ -3,6 +3,7 @@ __pycache__/
 env/
 .venv/
 .pytest_cache/
+node_modules/
 
 # ignore files
 .env

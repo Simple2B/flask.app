@@ -14,6 +14,15 @@ class BaseConfig(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     WTF_CSRF_ENABLED = False
 
+    # Mail config
+    MAIL_SERVER = os.getenv("MAIL_SERVER", "mail.simple2b.com")
+    MAIL_PORT = int(os.getenv("MAIL_PORT", "465"))
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME", "!setup in .env!")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "!setup in .env!")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "!setup in .env!")
+
     @staticmethod
     def configure(app):
         # Implement this method to do further configuration on your app.

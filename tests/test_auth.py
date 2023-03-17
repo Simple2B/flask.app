@@ -1,23 +1,10 @@
-import pytest
+import re
+from flask_mail import Message
+from flask import url_for
 
-from app import db, create_app
+from app import mail
+from app import models as m
 from tests.utils import register, login, logout
-
-
-@pytest.fixture
-def client():
-    app = create_app(environment="testing")
-    app.config["TESTING"] = True
-
-    with app.test_client() as client:
-        app_ctx = app.app_context()
-        app_ctx.push()
-        db.drop_all()
-        db.create_all()
-        yield client
-        db.session.remove()
-        db.drop_all()
-        app_ctx.pop()
 
 
 def test_auth_pages(client):
@@ -30,17 +17,45 @@ def test_auth_pages(client):
 
 
 def test_register(client):
-    response = client.post(
-        "/register",
-        data=dict(
-            username="sam",
-            email="sam@test.com",
-            password="password",
-            password_confirmation="password",
-        ),
-        follow_redirects=True,
-    )
-    assert b"Registration successful. You are logged in." in response.data
+    TEST_EMAIL = "sam@test.com"
+
+    with mail.record_messages() as outbox:
+
+        response = client.post(
+            "/register",
+            data=dict(
+                username="sam",
+                email=TEST_EMAIL,
+                password="password",
+                password_confirmation="password",
+            ),
+            follow_redirects=True,
+        )
+
+        assert (
+            b"Registration successful. Checkout you email for confirmation!."
+            in response.data
+        )
+
+        user = m.User.query.filter_by(email=TEST_EMAIL).first()
+        assert user
+
+        assert len(outbox) == 1
+        letter: Message = outbox[0]
+        assert letter.subject == "New password"
+        assert "Confirm registration" in letter.html
+        assert user.unique_id in letter.html
+        html: str = letter.html
+        pattern = r"https?:\/\/[\w\d\.-]+\/activated\/[\w\d-]{36}"
+        urls = re.findall(pattern, html)
+        assert len(urls) == 1
+        url = urls[0]
+        response = client.get(url)
+        assert response.status_code == 302
+        response.location == url_for("main.index")
+        user: m.User = m.User.query.filter_by(email=TEST_EMAIL).first()
+        assert user
+        assert user.activated
 
 
 def test_login_and_logout(client):
