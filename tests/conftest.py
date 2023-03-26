@@ -1,6 +1,9 @@
 import pytest
+from flask.testing import FlaskClient
 
 from app import create_app, db
+from app import models as m
+from tests.utils import register
 
 
 @pytest.fixture
@@ -13,7 +16,21 @@ def client():
         app_ctx.push()
         db.drop_all()
         db.create_all()
+        register()
         yield client
         db.session.remove()
         db.drop_all()
         app_ctx.pop()
+
+
+@pytest.fixture
+def populate(client: FlaskClient):
+    NUM_TEST_USERS = 100
+    for i in range(NUM_TEST_USERS):
+        m.User(
+            username=f"user{i+1}",
+            email=f"user{i+1}@mail.com",
+            password="password",
+        ).save(False)
+    db.session.commit()
+    yield client

@@ -42,6 +42,7 @@ class User(db.Model, UserMixin, ModelMixin):
                 func.lower(cls.email) == func.lower(user_id),
             )
         ).first()
+
         if user is not None and check_password_hash(user.password, password):
             return user
 

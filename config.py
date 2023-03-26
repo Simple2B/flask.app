@@ -23,6 +23,9 @@ class BaseConfig(object):
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "!setup in .env!")
     MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", "!setup in .env!")
 
+    # Pagination
+    DEFAULT_PAGE_SIZE = int(os.getenv("DEFAULT_PAGE_SIZE", 10))
+
     @staticmethod
     def configure(app):
         # Implement this method to do further configuration on your app.

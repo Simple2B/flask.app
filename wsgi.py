@@ -13,8 +13,16 @@ def get_context():
 
 @app.cli.command()
 def example_command():
-    """Create the configured database."""
+    """Example command."""
     print("Hello World!!!")
+
+
+@app.cli.command()
+def db_populate():
+    """Fill DB by dummy data."""
+    from tests.db import populate
+
+    populate()
 
 
 if __name__ == "__main__":

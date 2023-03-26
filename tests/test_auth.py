@@ -62,7 +62,7 @@ def test_login_and_logout(client):
     # Access to logout view before login should fail.
     response = logout(client)
     assert b"Please log in to access this page." in response.data
-    register("sam")
+    register("sam", "sam@test.com")
     response = login(client, "sam")
     assert b"Login successful." in response.data
     # Should successfully logout the currently logged in user.
