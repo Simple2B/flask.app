@@ -2,10 +2,12 @@ from flask_mail import Message
 from flask import Blueprint, render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 
-from app.models import User
+from app import models as m
 from app.forms import LoginForm, RegistrationForm
 from app import mail
 from config import BaseConfig as conf
+
+
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -14,7 +16,7 @@ auth_blueprint = Blueprint("auth", __name__)
 def register():
     form = RegistrationForm(request.form)
     if form.validate_on_submit():
-        user = User(
+        user = m.User(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
@@ -54,7 +56,7 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.authenticate(form.user_id.data, form.password.data)
+        user = m.User.authenticate(form.user_id.data, form.password.data)
         if user is not None:
             login_user(user)
             flash("Login successful.", "success")
@@ -77,13 +79,15 @@ def activate(reset_password_uid):
     if not current_user.is_authenticated:
         return redirect(url_for("main.index"))
 
-    user: User = User.query.filter(User.unique_id == reset_password_uid).first()
-    user.activated = True
-    user.save()
+    user: m.User | None = m.User.query.filter(m.User.unique_id == reset_password_uid).first()
 
     if not user:
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
+
+    user.activated = True
+    user.unique_id = m.user.gen_password_reset_id()
+    user.save()
 
     flash("Welcome!", "success")
     return redirect(url_for("main.index"))

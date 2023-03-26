@@ -37,6 +37,7 @@ def test_register(client):
             in response.data
         )
 
+        assert "bg-green-500" in response.data.decode()
         user = m.User.query.filter_by(email=TEST_EMAIL).first()
         assert user
 
@@ -46,6 +47,7 @@ def test_register(client):
         assert "Confirm registration" in letter.html
         assert user.unique_id in letter.html
         html: str = letter.html
+
         pattern = r"https?:\/\/[\w\d\.-]+\/activated\/[\w\d-]{36}"
         urls = re.findall(pattern, html)
         assert len(urls) == 1
@@ -64,6 +66,7 @@ def test_login_and_logout(client):
     assert b"Please log in to access this page." in response.data
     register("sam")
     response = login(client, "sam")
+    assert "bg-green-500" in response.data.decode()
     assert b"Login successful." in response.data
     # Should successfully logout the currently logged in user.
     response = logout(client)
