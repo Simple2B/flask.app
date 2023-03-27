@@ -8,7 +8,6 @@ from app import mail
 from config import BaseConfig as conf
 
 
-
 auth_blueprint = Blueprint("auth", __name__)
 
 
@@ -79,7 +78,9 @@ def activate(reset_password_uid):
     if not current_user.is_authenticated:
         return redirect(url_for("main.index"))
 
-    user: m.User | None = m.User.query.filter(m.User.unique_id == reset_password_uid).first()
+    user: m.User | None = m.User.query.filter(
+        m.User.unique_id == reset_password_uid
+    ).first()
 
     if not user:
         flash("Incorrect reset password link", "danger")
