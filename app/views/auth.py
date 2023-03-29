@@ -2,23 +2,26 @@ from flask_mail import Message
 from flask import Blueprint, render_template, url_for, redirect, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
 
-from app.models import User
-from app.forms import LoginForm, RegistrationForm, ForgotForm, ChangePasswordForm
+from app import models as m
+from app import forms as f
 from app import mail
 from config import BaseConfig as conf
+from app.logger import log
+
 
 auth_blueprint = Blueprint("auth", __name__)
 
 
 @auth_blueprint.route("/register", methods=["GET", "POST"])
 def register():
-    form = RegistrationForm()
+    form = f.RegistrationForm()
     if form.validate_on_submit():
-        user = User(
+        user = m.User(
             username=form.username.data,
             email=form.email.data,
             password=form.password.data,
         )
+        log(log.INFO, "Form submitted. User: [%s]", user)
         user.save()
 
         # create e-mail message
@@ -46,20 +49,26 @@ def register():
             "Registration successful. Checkout you email for confirmation!.", "success"
         )
     elif form.is_submitted():
+        log(log.WARNING, "Form submitted error: [%s]", form.errors)
         flash("The given data was invalid.", "danger")
     return render_template("auth/register.html", form=form)
 
 
 @auth_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm(request.form)
+    form = f.LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.authenticate(form.user_id.data, form.password.data)
-        if user is not None:
+        user = m.User.authenticate(form.user_id.data, form.password.data)
+        log(log.INFO, "Form submitted. User: [%s]", user)
+        if user:
             login_user(user)
+            log(log.INFO, "Login successful.")
             flash("Login successful.", "success")
             return redirect(url_for("main.index"))
         flash("Wrong user ID or password.", "danger")
+
+    elif form.is_submitted():
+        log(log.WARNING, "Form submitted error: [%s]", form.errors)
     return render_template("auth/login.html", form=form)
 
 
@@ -67,6 +76,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    log(log.INFO, "You were logged out.")
     flash("You were logged out.", "info")
     return redirect(url_for("main.index"))
 
@@ -75,15 +85,22 @@ def logout():
 @login_required
 def activate(reset_password_uid):
     if not current_user.is_authenticated:
+        log(log.WARNING, "Authentication error")
+
         return redirect(url_for("main.index"))
 
-    user: User = User.query.filter(User.unique_id == reset_password_uid).first()
-    user.activated = True
-    user.save()
+    user: m.User | None = m.User.query.filter(
+        m.User.unique_id == reset_password_uid
+    ).first()
 
     if not user:
+        log(log.INFO, "User not found")
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
+
+    user.activated = True
+    user.unique_id = m.user.gen_password_reset_id()
+    user.save()
 
     flash("Welcome!", "success")
     return redirect(url_for("main.index"))
@@ -91,9 +108,9 @@ def activate(reset_password_uid):
 
 @auth_blueprint.route("/forgot", methods=["GET", "POST"])
 def forgot_pass():
-    form = ForgotForm(request.form)
+    form = f.ForgotForm(request.form)
     if form.validate_on_submit():
-        user: User = User.query.filter_by(email=form.email.data).first()
+        user: m.User = m.User.query.filter_by(email=form.email.data).first()
         # create e-mail message
         msg = Message(
             subject="Reset password",
@@ -129,13 +146,13 @@ def password_recovery(reset_password_uid):
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
 
-    user: User = User.query.filter(User.unique_id == reset_password_uid).first()
+    user: m.User = m.User.query.filter_by(unique_id=reset_password_uid).first()
 
     if not user:
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
 
-    form = ChangePasswordForm()
+    form = f.ChangePasswordForm()
 
     if form.validate_on_submit():
         user.password = form.password.data
