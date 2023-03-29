@@ -25,6 +25,7 @@ class User(db.Model, UserMixin, ModelMixin):
     activated = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     unique_id = db.Column(db.String(36), default=gen_password_reset_id)
+    reset_password_uid = db.Column(db.String(64), default=gen_password_reset_id)
 
     @hybrid_property
     def password(self):
@@ -45,8 +46,13 @@ class User(db.Model, UserMixin, ModelMixin):
         if user is not None and check_password_hash(user.password, password):
             return user
 
+    def reset_password(self):
+        self.password_hash = ""
+        self.reset_password_uid = gen_password_reset_id()
+        self.save()
+
     def __repr__(self):
-        return f"<User: {self.username}>"
+        return f"<{self.id}: {self.username},{self.email}>"
 
 
 class AnonymousUser(AnonymousUserMixin):
