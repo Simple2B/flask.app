@@ -1,11 +1,11 @@
 from flask_mail import Message
 from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask import current_app as app
 from flask_login import login_user, logout_user, login_required, current_user
 
 from app.models import User
 from app.forms import LoginForm, RegistrationForm
 from app import mail
-from config import BaseConfig as conf
 from app.logger import log
 
 auth_blueprint = Blueprint("auth", __name__)
@@ -20,13 +20,13 @@ def register():
             email=form.email.data,
             password=form.password.data,
         )
-        log(log.INFO, "Form submited. User: [%s]", user)
+        log(log.INFO, "Form submitted. User: [%s]", user)
         user.save()
 
         # create e-mail message
         msg = Message(
             subject="New password",
-            sender=conf.MAIL_DEFAULT_SENDER,
+            sender=app.config["MAIL_DEFAULT_SENDER"],
             recipients=[user.email],
         )
         url = url_for(
@@ -39,7 +39,6 @@ def register():
             "email/confirm.htm",
             user=user,
             url=url,
-            config=conf,
         )
         mail.send(msg)
 
@@ -48,7 +47,7 @@ def register():
             "Registration successful. Checkout you email for confirmation!.", "success"
         )
     elif form.is_submitted():
-        log(log.WARNING, "Form submited error: [%s]", form.errors)
+        log(log.WARNING, "Form submitted error: [%s]", form.errors)
         flash("The given data was invalid.", "danger")
     return render_template("auth/register.html", form=form)
 
@@ -58,7 +57,7 @@ def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = User.authenticate(form.user_id.data, form.password.data)
-        log(log.INFO, "Form submited. User: [%s]", user)
+        log(log.INFO, "Form submitted. User: [%s]", user)
 
         if user:
             login_user(user)
@@ -68,7 +67,7 @@ def login():
         flash("Wrong user ID or password.", "danger")
 
     elif form.is_submitted():
-        log(log.WARNING, "Form submited error: [%s]", form.errors)
+        log(log.WARNING, "Form submitted error: [%s]", form.errors)
     return render_template("auth/login.html", form=form)
 
 
