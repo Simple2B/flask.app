@@ -1,11 +1,11 @@
 from flask_mail import Message
 from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask import current_app as app
 from flask_login import login_user, logout_user, login_required, current_user
 
 from app import models as m
 from app import forms as f
 from app import mail
-from config import BaseConfig as conf
 from app.logger import log
 
 
@@ -27,7 +27,7 @@ def register():
         # create e-mail message
         msg = Message(
             subject="New password",
-            sender=conf.MAIL_DEFAULT_SENDER,
+            sender=app.config["MAIL_DEFAULT_SENDER"],
             recipients=[user.email],
         )
         url = url_for(
@@ -40,7 +40,6 @@ def register():
             "email/confirm.htm",
             user=user,
             url=url,
-            config=conf,
         )
         mail.send(msg)
 
@@ -114,7 +113,7 @@ def forgot_pass():
         # create e-mail message
         msg = Message(
             subject="Reset password",
-            sender=conf.MAIL_DEFAULT_SENDER,
+            sender=app.config["MAIL_DEFAULT_SENDER"],
             recipients=[user.email],
         )
         url = url_for(
@@ -126,7 +125,6 @@ def forgot_pass():
             "email/remind.htm",
             user=user,
             url=url,
-            config=conf,
         )
         mail.send(msg)
         user.reset_password()
