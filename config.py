@@ -86,10 +86,11 @@ class ProductionConfig(BaseConfig):
 
 @lru_cache
 def config(name=APP_ENV) -> DevelopmentConfig | TestingConfig | ProductionConfig:
-    configuration = dict(
-        development=DevelopmentConfig,
-        testing=TestingConfig,
-        production=ProductionConfig,
-    )[name]()
+    CONF_MAP = dict(
+        development=DevelopmentConfig(),
+        testing=TestingConfig(),
+        production=ProductionConfig(),
+    )
+    configuration = CONF_MAP[name]
     configuration.ENV = name
     return configuration
