@@ -6,6 +6,8 @@ from app import mail
 from app import models as m
 from tests.utils import register, login, logout
 
+TEST_EMAIL = "saintkos117@gmail.com"
+
 
 def test_auth_pages(client):
     response = client.get("/register")
@@ -14,6 +16,8 @@ def test_auth_pages(client):
     assert response.status_code == 200
     response = client.get("/logout")
     assert response.status_code == 302
+    response = client.get("/forgot")
+    assert response.status_code == 200
 
 
 def test_register(client):
@@ -37,6 +41,7 @@ def test_register(client):
             in response.data
         )
 
+        assert "bg-green-500" in response.data.decode()
         user = m.User.query.filter_by(email=TEST_EMAIL).first()
         assert user
 
@@ -46,6 +51,7 @@ def test_register(client):
         assert "Confirm registration" in letter.html
         assert user.unique_id in letter.html
         html: str = letter.html
+
         pattern = r"https?:\/\/[\w\d\.-]+\/activated\/[\w\d-]{36}"
         urls = re.findall(pattern, html)
         assert len(urls) == 1
@@ -58,12 +64,61 @@ def test_register(client):
         assert user.activated
 
 
+def test_forgot(client):
+    response = client.post(
+        "/forgot",
+        data=dict(
+            email=TEST_EMAIL,
+        ),
+        follow_redirects=True,
+    )
+    assert b"No registered user with this e-mail" in response.data
+
+    user = m.User(
+        username="sam",
+        email=TEST_EMAIL,
+        password="password",
+    )
+    user.save()
+    with mail.record_messages() as outbox:
+        response = client.post(
+            "/forgot",
+            data=dict(
+                email=TEST_EMAIL,
+            ),
+            follow_redirects=True,
+        )
+
+        assert (
+            b"Password reset successful. For set new password please check your e-mail."
+            in response.data
+        )
+        user: m.User = m.User.query.filter(m.User.email == TEST_EMAIL).first()
+        assert user
+
+        assert len(outbox) == 1
+        letter = outbox[0]
+        assert letter.subject == "Reset password"
+        assert ("/password_recovery/" + user.unique_id) in letter.html
+
+    response = client.post(
+        "/password_recovery/" + user.unique_id,
+        data=dict(
+            password="123456789",
+            password_confirmation="123456789",
+        ),
+        follow_redirects=True,
+    )
+    assert b"Login successful." in response.data
+
+
 def test_login_and_logout(client):
     # Access to logout view before login should fail.
     response = logout(client)
     assert b"Please log in to access this page." in response.data
     register("sam", "sam@test.com")
     response = login(client, "sam")
+    assert "bg-green-500" in response.data.decode()
     assert b"Login successful." in response.data
     # Should successfully logout the currently logged in user.
     response = logout(client)

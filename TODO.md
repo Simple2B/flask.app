@@ -1,5 +1,5 @@
 # Need implement
 
-* Forgot password
+* Forgot password  ✅ 
 * Paginated view (Users table)
   

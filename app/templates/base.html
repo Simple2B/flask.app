@@ -26,8 +26,8 @@
     {% if messages %}
     {% for category, message in messages %}
     <div
-      class="close-js absolute max-w-xs bg-gray-500 text-sm text-white rounded-md shadow-lg mb-3 ml-3"
-      role="alert"
+    class="close-js absolute max-w-xs {% if category == 'danger' %}bg-red-500{% elif category == 'success' %}bg-green-500{% else %}bg-gray-500{% endif %} text-sm {% if category == 'danger' %}text-black{% else %}text-white{% endif %} rounded-md shadow-lg mb-3 ml-3"
+    role="alert"
     >
       <div class="flex p-4">
         {{ message }}

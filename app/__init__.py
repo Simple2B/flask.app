@@ -7,6 +7,7 @@ from werkzeug.exceptions import HTTPException
 from flask_migrate import Migrate
 from flask_mail import Mail
 
+from app.logger import log
 
 # instantiate extensions
 login_manager = LoginManager()
@@ -33,8 +34,10 @@ def create_app(environment="development"):
 
     # Set app config.
     env = os.environ.get("APP_ENV", environment)
-    app.config.from_object(config[env])
-    config[env].configure(app)
+    configuration = config(env)
+    app.config.from_object(configuration)
+    configuration.configure(app)
+    log(log.INFO, "Configuration: [%s]", configuration.ENV)
 
     # Set up extensions.
     db.init_app(app)
