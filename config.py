@@ -26,7 +26,7 @@ class BaseConfig(BaseSettings):
     MAIL_DEFAULT_SENDER: str
 
     # Pagination
-    DEFAULT_PAGE_SIZE = int(os.getenv("DEFAULT_PAGE_SIZE", 10))
+    DEFAULT_PAGE_SIZE: int = 10
 
     @staticmethod
     def configure(app: Flask):

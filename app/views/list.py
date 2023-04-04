@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request
+from flask import current_app as app
 from flask_login import login_required
 from flask_paginate import Pagination, get_page_parameter
 
 from app import models as m
-from config import BaseConfig as cfg
 
 
 list_blueprint = Blueprint("list", __name__)
@@ -25,7 +25,7 @@ def user_list():
         total=users.count(),
         search=search,
         record_name="users",
-        per_page=cfg.DEFAULT_PAGE_SIZE,
+        per_page=app.config["DEFAULT_PAGE_SIZE"],
     )
     # 'page' is the default name of the page parameter, it can be customized
     # e.g. Pagination(page_parameter='p', ...)
@@ -36,6 +36,6 @@ def user_list():
 
     return render_template(
         "list.html",
-        users=users.paginate(page=page, per_page=cfg.DEFAULT_PAGE_SIZE),
+        users=users.paginate(page=page, per_page=app.config["DEFAULT_PAGE_SIZE"]),
         pagination=pagination,
     )
