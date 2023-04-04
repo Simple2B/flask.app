@@ -22,10 +22,29 @@ services:
     command: sh ./start_server.sh
     environment:
       APP_ENV: production
+      REDIS_URL: redis://redis/
     depends_on:
       - db
     ports:
       - 127.0.0.1:${LOCAL_WEB_PORT:-8000}:8000
+
+  redis:
+    image: redis:7.2-rc1-alpine
+    ports:
+      - 127.0.0.1:${REDIS_LOCAL_PORT:-6379}:6379
+
+  worker:
+    build: .
+    # restart: always
+    command: sh ./start_worker.sh
+    environment:
+      APP_ENV: production
+      REDIS_URL: redis://redis/
+    depends_on:
+      - db
+
+
+
 
 volumes:
   db_data:

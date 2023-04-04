@@ -25,6 +25,8 @@ class BaseConfig(BaseSettings):
     MAIL_PASSWORD: str
     MAIL_DEFAULT_SENDER: str
 
+    REDIS_URL: str
+
     @staticmethod
     def configure(app: Flask):
         # Implement this method to do further configuration on your app.
