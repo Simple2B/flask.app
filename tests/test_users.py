@@ -5,7 +5,7 @@ from tests.utils import login
 
 def test_list(populate: FlaskClient):
     login(populate)
-    response = populate.get("/list")
+    response = populate.get("/user/")
     assert response
     assert response.status_code == 200
     html = response.data.decode()

@@ -6,12 +6,12 @@ from flask_paginate import Pagination, get_page_parameter
 from app import models as m
 
 
-list_blueprint = Blueprint("list", __name__)
+bp = Blueprint("user", __name__, url_prefix="/user")
 
 
-@list_blueprint.route("/list", methods=["GET"])
+@bp.route("/", methods=["GET"])
 @login_required
-def user_list():
+def get_all():
     search = False
     q = request.args.get("q")
     if q:
