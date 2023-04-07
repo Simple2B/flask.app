@@ -12,6 +12,7 @@
   },
   "cSpell.words": [
     "pydantic",
+    "pytest",
     "sqlalchemy",
     "tailwindcss",
     "werkzeug",

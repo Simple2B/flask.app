@@ -21,7 +21,7 @@ class User(db.Model, UserMixin, ModelMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(60), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
+    password_hash = db.Column(db.String(255), default="")
     activated = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     unique_id = db.Column(db.String(36), default=gen_password_reset_id)
