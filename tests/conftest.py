@@ -6,21 +6,41 @@ from app import models as m
 from tests.utils import register
 
 
-@pytest.fixture
-def client():
-    app = create_app(environment="testing")
-    app.config["TESTING"] = True
+@pytest.fixture()
+def app():
+    app = create_app("testing")
+    app.config.update(
+        {
+            "TESTING": True,
+        }
+    )
 
+    yield app
+
+
+@pytest.fixture()
+def client(app):
     with app.test_client() as client:
         app_ctx = app.app_context()
         app_ctx.push()
+
         db.drop_all()
         db.create_all()
         register()
+
         yield client
         db.session.remove()
         db.drop_all()
         app_ctx.pop()
+
+
+@pytest.fixture()
+def runner(app, client):
+    from app import commands
+
+    commands.init(app)
+
+    yield app.test_cli_runner()
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 from app.models import User
 
-TEST_ADMIN_NAME = "admin"
-TEST_ADMIN_EMAIL = "admin@test.com"
+TEST_ADMIN_NAME = "sam"
+TEST_ADMIN_EMAIL = "sam@test.com"
 TEST_ADMIN_PASSWORD = "password"
 
 

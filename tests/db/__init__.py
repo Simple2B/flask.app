@@ -6,6 +6,8 @@ from faker import Faker
 
 faker = Faker()
 
+NUM_TEST_USERS = 100
+
 
 def gen_test_items(num_objects: int) -> Generator[str, None, None]:
     from faker import Faker
@@ -30,9 +32,8 @@ def gen_test_items(num_objects: int) -> Generator[str, None, None]:
         yield first_name, f"{first_name}.{last_name}@{company}.{dns_org}".lower()
 
 
-def populate():
-    NUM_TEST_USERS = 100
-    for index, object in enumerate(gen_test_items(NUM_TEST_USERS)):
+def populate(count: int = NUM_TEST_USERS):
+    for index, object in enumerate(gen_test_items(count)):
         m.User(
             username=object[0] + str(index),
             email=object[1],
