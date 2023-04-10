@@ -1,5 +1,7 @@
-# Need implement
+# Need implement ✅ 
 
-* Forgot password  ✅ 
-* Paginated view (Users table)
+* Forgot password & Registration - Eugene 
+* Paginated view (Users table) - Kostia
+* Flash boxes closed by timeout (10sec) - Kostia    
+* NavBar & SideBar - Kostia
   
