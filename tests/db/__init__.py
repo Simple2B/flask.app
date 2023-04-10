@@ -33,7 +33,7 @@ def gen_test_items(num_objects: int) -> Generator[str, None, None]:
         dns_org = fake.random_choices(elements=DOMAINS, length=1)[0]
 
         # email formatting
-        yield f"{first_name}{i}".lower(), f"{first_name}.{last_name}@{company}.{dns_org}".lower()
+        yield f"{first_name}{i}".lower(), f"{first_name}.{last_name}{i}@{company}.{dns_org}".lower()
 
 
 def populate(count: int = NUM_TEST_USERS):

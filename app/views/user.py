@@ -20,6 +20,8 @@ def get_all():
     page = request.args.get(get_page_parameter(), type=int, default=1)
 
     users = m.User.query
+    if q:
+        users.filter(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
     pagination = Pagination(
         page=page,
         total=users.count(),
@@ -35,7 +37,7 @@ def get_all():
     # e.g. Pagination(per_page_parameter='pp')
 
     return render_template(
-        "list.html",
+        "users.html",
         users=users.paginate(page=page, per_page=app.config["DEFAULT_PAGE_SIZE"]),
         pagination=pagination,
     )
