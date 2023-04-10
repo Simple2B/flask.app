@@ -25,6 +25,14 @@ class BaseConfig(BaseSettings):
     MAIL_PASSWORD: str
     MAIL_DEFAULT_SENDER: str
 
+    # Super admin
+    ADMIN_USERNAME: str
+    ADMIN_EMAIL: str
+    ADMIN_PASSWORD: str
+
+    # Pagination
+    DEFAULT_PAGE_SIZE: int = 10
+
     @staticmethod
     def configure(app: Flask):
         # Implement this method to do further configuration on your app.
