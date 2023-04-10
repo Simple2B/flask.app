@@ -11,6 +11,7 @@
     "**/.venv/*/**": true
   },
   "cSpell.words": [
+    "flowbite",
     "pydantic",
     "sqlalchemy",
     "tailwindcss",

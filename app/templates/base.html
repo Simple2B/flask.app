@@ -4,20 +4,19 @@
     <meta charset="utf-8" />
     <title>{{ config.APP_NAME }}</title>
     <!-- meta -->
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="description" content="Simple2B Flask App" />
+    <meta name="author" content="Simple2B" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+
     {% block meta %}{% endblock %}
+
     <!-- styles -->
-    <link
-      href="{{ url_for('static', filename='css/main.css') }}"
-      rel="stylesheet"
-      media="screen"
-    />
+    <!-- prettier-ignore -->
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/>
     {% block links %}{% endblock %}
   </head>
 
-  <body class="relative h-screen bg-blueGray-50">
+  <body>
     <!-- Header -->
     {% include 'header.html' %}
     <!-- Flash Messages -->
@@ -26,8 +25,8 @@
     {% if messages %}
     {% for category, message in messages %}
     <div
-    class="close-js absolute max-w-xs {% if category == 'danger' %}bg-red-500{% elif category == 'success' %}bg-green-500{% else %}bg-gray-500{% endif %} text-sm {% if category == 'danger' %}text-black{% else %}text-white{% endif %} rounded-md shadow-lg mb-3 ml-3"
-    role="alert"
+      class="close-js absolute max-w-xs {% if category == 'danger' %}bg-red-500{% elif category == 'success' %}bg-green-500{% else %}bg-gray-500{% endif %} text-sm {% if category == 'danger' %}text-black{% else %}text-white{% endif %} rounded-md shadow-lg mb-3 ml-3"
+      role="alert"
     >
       <div class="flex p-4">
         {{ message }}
@@ -61,5 +60,7 @@
       type="text/javascript"
     ></script>
     {% block scripts %}{% endblock %}
+    <!-- prettier-ignore -->
+    <script src="{{ url_for('static', filename='js/flowbite.min.js') }}" defer></script>
   </body>
 </html>
