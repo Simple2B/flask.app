@@ -1,82 +1,83 @@
-<link
-  rel="stylesheet"
-  href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-/>
-{% extends 'base.html' %} {% block content %}
-<!-- component -->
-<!-- prettier-ignore -->
-<section>
-  <div class="w-full lg:w-4/12 px-4 mx-auto pt-6">
-    <div
-      class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
-    >
-      <div class="rounded-t mb-0 px-6 py-6">
-        <div class="text-center mb-3">
-          <h6 class="text-blueGray-500 text-sm font-bold">Sign in with</h6>
-        </div>
-        <div class="btn-wrapper text-center">
-          <button
-            class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-            type="button"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ config.APP_NAME }}</title>
+    <!-- meta -->
+    <meta name="description" content="Simple2B Flask App" />
+    <meta name="author" content="Simple2B" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- styles -->
+    <!-- prettier-ignore -->
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/>
+      <body class="bg-gray-50 dark:bg-gray-900">
+    <section >
+      <div
+        class="w-full lg:w-4/12 px-4 mx-auto pt-6"
+      >
+       
+        <div>
+          <div
+            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800"
           >
-            <img
-              alt="..."
-              class="w-5 mr-1"
-              src="https://demos.creative-tim.com/notus-js/assets/img/github.svg"
-            />Github
-          </button>
-          <button
-            class="bg-white active:bg-blueGray-50 text-blueGray-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-            type="button"
-          >
-            <img
-              alt="..."
-              class="w-5 mr-1"
-              src="https://demos.creative-tim.com/notus-js/assets/img/google.svg"
-            />Google
-          </button>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+              Sign in to Simple2B
+            </h2>
+            <form class="mt-8 space-y-6 from"
+                  role="form"
+                  action="{{ url_for('auth.login') }}"
+                  method="post">
+                {{ form.hidden_tag() }}
+              <div>
+                {{form.user_id.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.user_id(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}
+              </div>
+              <div>
+               {{form.password.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.password(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}
+              </div>
+
+
+
+
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input
+                    id="remember"
+                    aria-describedby="remember"
+                    name="remember"
+                    type="checkbox"
+                    class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
+                    required
+                  />
+                </div>
+                <div class="ml-3 text-sm">
+                  <label
+                    for="remember"
+                    class="font-medium text-gray-500 dark:text-gray-400"
+                    >Remember this device</label
+                  >
+                </div>
+                <a
+                  href="#"
+                  class="ml-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                  >Lost Password?</a
+                >
+              </div>
+              <button
+                type="submit"
+                class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Login to your account
+              </button>
+              <div class="text-sm font-medium text-gray-900 dark:text-white">
+                Not registered yet?
+                <a class="text-blue-600 hover:underline dark:text-blue-500" href="{{ url_for('auth.register') }}"
+                  >Create account</a
+                >
+              </div>
+            </form>
+          </div>
         </div>
-        <hr class="mt-6 border-b-1 border-blueGray-300" />
       </div>
-      <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-        <div class="text-blueGray-400 text-center mb-3 font-bold">
-          <small>Or sign in with credentials</small>
-        </div>
-        <form
-          class="form"
-          role="form"
-          action="{{ url_for('auth.login') }}"
-          method="post"
-        >
-        {{ form.hidden_tag() }}
-          <div class="relative w-full mb-3">
-            {{form.user_id.label(class='block uppercase text-blueGray-600 text-xs font-bold mb-2')}} {{form.user_id(class='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150')}}
-          </div>
-         <div class="relative w-full mb-3">
-            {{form.password.label(class='block uppercase text-blueGray-600 text-xs font-bold mb-2')}} {{form.password(class='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150')}}
-          </div>
-          <div class="text-center">
-            <label class="inline-flex items-center cursor-pointer"><a href="{{ url_for('auth.register') }}" class="text-lg font-semibold text-blueGray-600">Or register</a></label>
-          </div>
-          <div class="text-center mt-6">
-            <button
-              class="bg-blue-500 text-black active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-              type="submit"
-            >
-              Sign In
-            </button>
-          </div>
-          <div class="text-center mt-2">
-            <label class="inline-flex items-center cursor-pointer"><a href="{{ url_for('auth.forgot_pass') }}" class="text-lg font-semibold text-blueGray-600">For password remind click HERE</a></label>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- prettier-ignore -->
-{% endblock %}
+    </section>
+  </body>
+</html>
