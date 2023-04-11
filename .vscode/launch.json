@@ -19,7 +19,8 @@
                 "-p",
                 "10002"
             ],
-            "jinja": true
+            "jinja": true,
+            "justMyCode": false
         },
         {
             "name": "Docker: Python - Flask",
