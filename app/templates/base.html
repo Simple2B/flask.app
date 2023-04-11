@@ -24,7 +24,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     {% for category, message in messages %}
-    <!--  -->
+    <!-- Flash message markup -->
     <div
       id="toast-{{category}}"
       class="absolute top-10 left-10 z-50 flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
@@ -47,12 +47,10 @@
           ></path>
         </svg>
         <!-- prettier-ignore -->
-
         {% if category == 'success' %}<span class="sr-only">Check icon</span>{%
         endif %} {% if category == 'danger' %}<span class="sr-only"
           >Error icon</span
         >{% endif %}
-
         <!-- prettier-ignore -->
       </div>
       <div class="ml-3 text-sm font-normal">{{message}}</div>
