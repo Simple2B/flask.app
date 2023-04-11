@@ -1,4 +1,5 @@
 **/__pycache__
+**/.pytest_cache
 **/.classpath
 **/.dockerignore
 **/.git
@@ -11,5 +12,11 @@
 **/node_modules
 **/npm-debug.log
 README.md
+TODO.md
 **/.venv
 /tests/
+/src/
+**/*.sqlite3
+**/package.json
+**/tox.ini
+**/yarn.lock
