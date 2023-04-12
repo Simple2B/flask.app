@@ -17,8 +17,10 @@
   </head>
 
   <body>
+    {% block body %}
     <!-- Header -->
-    {% include 'header.html' %}
+    <!-- prettier-ignore -->
+    {% if not current_user.is_anonymous %} {% include 'header.html' %} {% endif %}
     <!-- Flash Messages -->
     <!-- prettier-ignore -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -83,7 +85,8 @@
     {% endwith %}
 
     <!-- Main Content -->
-    {% include 'sidebar.html' %}
+    <!-- prettier-ignore -->
+    {% if not current_user.is_anonymous %}{% include 'sidebar.html' %}{% endif %}
 
     <div class="p-4 sm:ml-64">
       <div
@@ -92,7 +95,7 @@
         {% block content %}{% endblock %}
       </div>
     </div>
-
+    {% endblock %}
     <!-- scripts -->
 
     <script
