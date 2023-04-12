@@ -41,6 +41,7 @@ def test_register(client):
             in response.data
         )
 
+        assert "toast" in response.data.decode()
         user = m.User.query.filter_by(email=TEST_EMAIL).first()
         assert user
 

@@ -37,10 +37,12 @@
               ></path>
             </svg>
             <!-- prettier-ignore -->
-            {% if category == 'success' %}<span class="sr-only">Check icon</span>{%
-            endif %} {% if category == 'danger' %}<span class="sr-only"
-              >Error icon</span
-            >{% endif %}
+            {% if category == 'success' %}
+              <span class="sr-only">Check icon</span>
+            {%endif %} 
+            {% if category == 'danger' %}
+              <span class="sr-only">Error icon</span>
+            {% endif %}
             <!-- prettier-ignore -->
           </div>
           <div class="ml-3 text-sm font-normal">{{message}}</div>
@@ -66,20 +68,13 @@
             </svg>
           </button>
         </div>
-        <!--  -->
-        <!-- prettier-ignore -->
         {% endfor %}
         {% endif %}
         {% endwith %}
     <section >
-      <div
-        class="w-full lg:w-4/12 px-4 mx-auto pt-6"
-      >
-       
+      <div class="w-full lg:w-4/12 px-4 mx-auto pt-6">
         <div>
-          <div
-            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800"
-          >
+          <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
               Type your email, and we send your password
             </h2>
@@ -87,19 +82,17 @@
                   role="form"
                   action="{{ url_for('auth.forgot_pass') }}"
                   method="post">
-                {{ form.hidden_tag() }}
+              {{ form.hidden_tag() }}
 
-        <div>
-              {{form.email.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.email(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for error
-              in form.errors.email %}
-              <small class="text-danger">{{error}}</small>
-              {% endfor %}
-        </div>
-
-              <button
-                type="submit"
-                class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
+              <!-- prettier-ignore -->
+              <div>
+                {{form.email.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.email(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}
+                {% for error in form.errors.email %}
+                  <small class="text-danger">{{error}}</small>
+                {% endfor %}
+              </div>
+              <!-- prettier-ignore -->
+              <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Sent my password
               </button>
             </form>
