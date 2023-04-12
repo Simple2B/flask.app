@@ -13,11 +13,27 @@
     <!-- styles -->
     <!-- prettier-ignore -->
     <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/>
-
-    {% block links %}{% endblock %}
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.getItem("color-theme") === "dark" ||
+        (!("color-theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+    <!-- prettier-ignore -->
+    {% block links %}
+    {% endblock %}
   </head>
 
   <body>
+    <!-- Header -->
+    <!-- prettier-ignore -->
+    {% include 'header.html' %}
     <!-- Flash Messages -->
     <!-- prettier-ignore -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -54,46 +70,28 @@
     {% endwith %}
     
     {% block body %}
-    <!-- Header -->
-    <!-- prettier-ignore -->
-    {% if not current_user.is_anonymous %}
-    {% include 'header.html' %}
-    {% endif %}
 
-    <!-- Main Content -->
+    <!-- SideBar -->
     <!-- prettier-ignore -->
-    {% if not current_user.is_anonymous %}
     {% include 'sidebar.html' %}
-    {% endif %}
 
     <div class="p-4 sm:ml-64">
       <div
         class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
       >
+        <!-- Main Content -->
         {% block content %}{% endblock %}
       </div>
     </div>
     {% endblock %}
     <!-- scripts -->
 
-    <script
-      src="{{ url_for('static', filename='js/main.js') }}"
-      type="text/javascript"
-    ></script>
-    {% block scripts %}{% endblock %}
     <!-- prettier-ignore -->
     <script src="{{ url_for('static', filename='js/flowbite.min.js') }}" defer></script>
-    <script>
-      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-      if (
-        localStorage.getItem("color-theme") === "dark" ||
-        (!("color-theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
+    <!-- prettier-ignore -->
+    <script src="{{ url_for('static', filename='js/main.js') }}" type="text/javascript" defer></script>
+    <!-- prettier-ignore -->
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>
