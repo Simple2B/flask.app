@@ -32,6 +32,7 @@ class BaseConfig(BaseSettings):
 
     # Pagination
     DEFAULT_PAGE_SIZE: int = 10
+    PAGE_LINKS_NUMBER: int = 8
 
     @staticmethod
     def configure(app: Flask):
