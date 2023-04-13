@@ -1,5 +1,5 @@
 from flask_mail import Message
-from flask import Blueprint, render_template, url_for, redirect, flash, request
+from flask import Blueprint, render_template, url_for, redirect, flash, request, session
 from flask import current_app as app
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -76,8 +76,8 @@ def login():
 def logout():
     logout_user()
     log(log.INFO, "You were logged out.")
-    flash("You were logged out.", "info")
-    return redirect(url_for("main.index"))
+    session.clear()
+    return redirect(url_for("auth.login"))
 
 
 @auth_blueprint.route("/activated/<reset_password_uid>")
@@ -133,6 +133,7 @@ def forgot_pass():
             "success",
         )
     elif form.is_submitted():
+        log(log.ERROR, "No registered user with this e-mail")
         flash("No registered user with this e-mail", "danger")
     return render_template("auth/forgot.html", form=form)
 
@@ -155,7 +156,7 @@ def password_recovery(reset_password_uid):
     if form.validate_on_submit():
         user.password = form.password.data
         user.activated = True
-        user.unique_id = ""
+        user.unique_id = m.gen_password_reset_id()
         user.save()
         login_user(user)
         flash("Login successful.", "success")

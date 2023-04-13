@@ -1,45 +1,37 @@
-<link
-  rel="stylesheet"
-  href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-/>
-{% extends 'base.html' %} {% block content %}
-<!-- component -->
+{% extends "base.html" %}
 <!-- prettier-ignore -->
-<section>
-  <div class="w-full lg:w-4/12 px-4 mx-auto pt-6">
-    <div
-      class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
-    >
-      <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
-        <div class="text-blueGray-400 text-center mb-3 font-bold">
-          <small>Type your email, and we send your password</small>
+{% block body %}
+
+<div class="bg-gray-50 dark:bg-gray-900 pt-20">
+  <section>
+    <div class="w-full lg:w-4/12 px-4 mx-auto pt-6">
+      <div>
+        <!-- prettier-ignore -->
+        <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Type your email, and we send your password
+          </h2>
+          <form class="mt-8 space-y-6 from" role="form" action="{{ url_for('auth.forgot_pass') }}" method="post">
+            {{ form.hidden_tag() }}
+
+            <!-- prettier-ignore -->
+            <div>
+                {{form.email.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.email(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}
+                {% for error in form.errors.email %}
+                  <small class="text-danger">{{error}}</small>
+                {% endfor %}
+              </div>
+            <!-- prettier-ignore -->
+            <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Sent my password
+              </button>
+          </form>
         </div>
-        <form
-          class="form"
-          role="form"
-          action="{{ url_for('auth.forgot_pass') }}"
-          method="post"
-        >
-        {{ form.hidden_tag() }}
-         <div class="relative w-full mb-3">
-            {{form.email.label(class='block uppercase text-blueGray-600 text-xs font-bold mb-2')}} {{form.email(class='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150')}}
-          </div>
-          <div class="text-center mt-6">
-            <button
-              class="bg-blue-500 text-black active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-              type="submit"
-            >
-              Sent my password
-            </button>
-          </div>
-        </form>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
+{% endblock %}
 <!-- prettier-ignore -->
+{% block scripts %}
 {% endblock %}

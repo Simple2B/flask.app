@@ -15,11 +15,10 @@
                 "FLASK_DEBUG": "1"
             },
             "args": [
-                "run",
-                "-p",
-                "10002"
+                "run"
             ],
-            "jinja": true
+            "jinja": true,
+            "justMyCode": false
         },
         {
             "name": "Docker: Python - Flask",

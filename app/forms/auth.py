@@ -6,7 +6,7 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    user_id = StringField("Username or Email", [DataRequired()])
+    user_id = StringField("Username", [DataRequired()])
     password = PasswordField("Password", [DataRequired()])
     submit = SubmitField("Login")
 
@@ -36,7 +36,7 @@ class RegistrationForm(FlaskForm):
 class ForgotForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
 
-    def validate_email(form, email):
+    def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError("Email not found")
@@ -45,7 +45,10 @@ class ForgotForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     password = PasswordField(
         "Password",
-        [DataRequired(), EqualTo("password_confirmation", message="Passwords must match")],
+        [
+            DataRequired(),
+            EqualTo("password_confirmation", message="Passwords must match"),
+        ],
         render_kw={"placeholder": "Password"},
     )
     password_confirmation = PasswordField(
