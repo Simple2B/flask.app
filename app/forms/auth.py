@@ -36,7 +36,7 @@ class RegistrationForm(FlaskForm):
 class ForgotForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
 
-    def validate_email(form, email):
+    def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError("Email not found")

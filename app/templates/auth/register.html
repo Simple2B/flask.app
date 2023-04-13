@@ -1,73 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{{ config.APP_NAME }}</title>
-    <!-- meta -->
-    <meta name="description" content="Simple2B Flask App" />
-    <meta name="author" content="Simple2B" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <!-- styles -->
-    <!-- prettier-ignore -->
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/>
-      <body class="bg-gray-50 dark:bg-gray-900">
-    <section >
-      <div
-        class="w-full lg:w-4/12 px-4 mx-auto pt-6"
-      >
-       
-        <div>
-          <div
-            class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800"
-          >
-            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
-              Sign in to Simple2B
-            </h2>
-            <form class="mt-8 space-y-6 from"
-                  role="form"
-                  action="{{ url_for('auth.login') }}"
-                  method="post">
-                {{ form.hidden_tag() }}
-              <div>
-              {{form.username.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.username(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for
+{% extends "base.html" %}
+<!-- prettier-ignore -->
+{% block body %}
+
+<div class="bg-gray-50 dark:bg-gray-900 pt-20">
+  <section>
+    <div class="w-full lg:w-4/12 px-4 mx-auto pt-6">
+      <div>
+        <!-- prettier-ignore -->
+        <div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Sign in to Simple2B
+          </h2>
+          <form class="mt-8 space-y-6 from" role="form" action="{{ url_for('auth.register') }}" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+              {{form.username.label(class='block mb-2 text-sm font-medium
+              text-gray-900 dark:text-white')}}
+              {{form.username(class='bg-gray-50 border border-gray-300
+              text-gray-900 text-sm rounded-lg focus:ring-blue-500
+              focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+              dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for
               error in form.errors.username %}
               <small class="text-danger">{{error}}</small>
               {% endfor %}
-          </div>
-        <div>
-              {{form.email.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.email(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for error
-              in form.errors.email %}
+            </div>
+            <div>
+              {{form.email.label(class='block mb-2 text-sm font-medium
+              text-gray-900 dark:text-white')}} {{form.email(class='bg-gray-50
+              border border-gray-300 text-gray-900 text-sm rounded-lg
+              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500')}}{% for error in form.errors.email %}
               <small class="text-danger">{{error}}</small>
               {% endfor %}
-        </div>
-              <div>
-              {{form.password.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.password(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for error
-              in form.errors.password %}
+            </div>
+            <div>
+              {{form.password.label(class='block mb-2 text-sm font-medium
+              text-gray-900 dark:text-white')}}
+              {{form.password(class='bg-gray-50 border border-gray-300
+              text-gray-900 text-sm rounded-lg focus:ring-blue-500
+              focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
+              dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for
+              error in form.errors.password %}
               <small class="text-danger">{{error}}</small>
               {% endfor %}
-              </div>
-               <div>
-              {{form.password_confirmation.label(class='block mb-2 text-sm font-medium text-gray-900 dark:text-white')}} {{form.password_confirmation(class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')}}{% for error
-              in form.errors.password_confirmation %}
+            </div>
+            <div>
+              {{form.password_confirmation.label(class='block mb-2 text-sm
+              font-medium text-gray-900 dark:text-white')}}
+              {{form.password_confirmation(class='bg-gray-50 border
+              border-gray-300 text-gray-900 text-sm rounded-lg
+              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500')}}{% for error in
+              form.errors.password_confirmation %}
               <small class="text-danger">{{error}}</small>
               {% endfor %}
-              </div>
-              <button
-                type="submit"
-                class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Register account
-              </button>
-              <div class="text-sm font-medium text-gray-900 dark:text-white">
-                Have an account?
-                <a class="text-blue-600 hover:underline dark:text-blue-500" href="{{ url_for('auth.login') }}"
-                  >Go to Login page</a
-                >
-              </div>
-            </form>
-          </div>
+            </div>
+            <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              Register account
+            </button>
+            <div class="text-sm font-medium text-gray-900 dark:text-white">
+              Have an account?
+              <a class="text-blue-600 hover:underline dark:text-blue-500" href="{{ url_for('auth.login') }}">Go to Login page</a>
+            </div>
+          </form>
         </div>
       </div>
-    </section>
-  </body>
-</html>
+    </div>
+  </section>
+</div>
+{% endblock %}
+<!-- prettier-ignore -->
+{% block scripts %}
+{% endblock %}
