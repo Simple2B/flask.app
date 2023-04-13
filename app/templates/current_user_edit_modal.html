@@ -1,6 +1,6 @@
 <!-- Edit user modal -->
 <div
-  id="editUserModal"
+  id="editCurrentUserModal"
   tabindex="-1"
   aria-hidden="true"
   class="fixed top-0 left-0 right-0 z-50 items-center justify-center hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -19,9 +19,9 @@
           Edit user
         </h3>
         <button
-          id="modalCloseButton"
           type="button"
           class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="editCurrentUserModal"
         >
           <svg
             aria-hidden="true"

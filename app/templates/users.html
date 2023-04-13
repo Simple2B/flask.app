@@ -8,26 +8,11 @@
       <div
         class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
       >
-        <svg
-          class="w-5 h-5 text-gray-500 dark:text-gray-400"
-          aria-hidden="true"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-            clip-rule="evenodd"
-          ></path>
-        </svg>
+      <!-- prettier-ignore -->
+        <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
       </div>
-      <input
-        type="text"
-        id="table-search-users"
-        class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        placeholder="Search for users"
-      />
+      <!-- prettier-ignore -->
+      <input type="text" id="table-search-users" class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users"/>
     </div>
   </div>
   <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -66,7 +51,11 @@
       {% if user.activated %}<div class="flex items-center"><div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Active</div></div>{% else %}<div class="flex items-center"><div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>  Offline</div>{% endif %}
         </td>
         <td class="p-4 space-x-2 whitespace-nowrap">
-          <button type="button"  data-modal-target="editUserModal" data-modal-show="editUserModal"  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <!-- <button type="button"  data-modal-target="editUserModal" data-modal-show="editUserModal" data-target="{{ user.id }}"  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+            Edit user
+          </button> -->
+          <button type="button" data-target="{{user.id}}" onclick="()=>{editUser( '{{user.id}}' )}"  class="user-edit-button inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
             Edit user
           </button>
@@ -80,6 +69,7 @@
     </tbody>
   </table>
 </div>
+
 {% if page.pages > 1 %}
 <div class="container content-center mt-3 flex">
   <nav aria-label="Page navigation example" class="mx-auto">
@@ -144,8 +134,8 @@
 </div>
 {% endif %}
 </div>
-
 {% include 'user_edit_modal.html' %}
+
 <!-- prettier-ignore -->
 {% endblock %}
 <!-- prettier-ignore -->
