@@ -6,12 +6,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "tailwindcss build -i src/styles.css -o app/static/css/main.css --watch",
-    "build": "tailwindcss build -i src/styles.css -o app/static/css/main.css"
+    "build": "tailwindcss build -i src/styles.css -o app/static/css/main.css && webpack"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "flowbite": "^1.6.4",
     "tailwindcss": "^3.2.7"
+  },
+  "devDependencies": {
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.79.0",
+    "webpack-cli": "^5.0.1"
   }
 }

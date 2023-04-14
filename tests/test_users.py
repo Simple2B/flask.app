@@ -7,13 +7,14 @@ from tests.utils import login
 
 def test_list(populate: FlaskClient):
     login(populate)
+    DEFAULT_PAGE_SIZE = app.config["DEFAULT_PAGE_SIZE"]
     response = populate.get("/user/")
     assert response
     assert response.status_code == 200
     html = response.data.decode()
-    users = m.User.query.limit(11).all()
+    users = m.User.query.order_by(m.User.id).limit(11).all()
     assert len(users) == 11
-    for user in users[:10]:
+    for user in users[:DEFAULT_PAGE_SIZE]:
         assert user.username in html
     assert users[10].username not in html
 

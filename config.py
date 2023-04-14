@@ -31,8 +31,8 @@ class BaseConfig(BaseSettings):
     ADMIN_PASSWORD: str
 
     # Pagination
-    DEFAULT_PAGE_SIZE: int = 10
-    PAGE_LINKS_NUMBER: int = 8
+    DEFAULT_PAGE_SIZE: int
+    PAGE_LINKS_NUMBER: int
 
     @staticmethod
     def configure(app: Flask):
