@@ -51,7 +51,6 @@ export function initUsers() {
 
 
 function editUser(user: IUser) {
-    // user-edit-username
     let input: HTMLInputElement = document.querySelector('#user-edit-username');
     input.value = user.username;
     input = document.querySelector('#user-edit-id');

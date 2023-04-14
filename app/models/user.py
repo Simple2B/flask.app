@@ -62,7 +62,7 @@ class User(db.Model, UserMixin, ModelMixin):
     @property
     def json(self):
         u = s.User.from_orm(self)
-        return u.json(by_alias=True)
+        return u.json()
 
 
 class AnonymousUser(AnonymousUserMixin):
