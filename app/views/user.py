@@ -5,8 +5,6 @@ from flask import (
     flash,
     redirect,
     url_for,
-    Response,
-    jsonify,
 )
 from flask_login import login_required
 from app.controllers import create_pagination
@@ -53,11 +51,11 @@ def save():
         u.save()
         if form.next_url.data:
             return redirect(form.next_url.data)
-
         return redirect(url_for("user.get_all"))
 
     else:
         log(log.ERROR, "User save errors: [%s]", form.errors)
-        flash("Cannot save user data", "danger")
+        flash(f"{form.errors}", "danger")
         # return status_code = 40?
-        return Response(jsonify(form.errors), status=400)
+        # return Response(jsonify(form.errors), status=400)
+        return redirect(url_for("user.get_all"))
