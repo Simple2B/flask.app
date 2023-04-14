@@ -12,12 +12,14 @@
   },
   "cSpell.words": [
     "flowbite",
+    "jsonify",
     "pydantic",
     "pytest",
     "sqlalchemy",
     "tailwindcss",
     "werkzeug",
-    "wsgi"
+    "wsgi",
+    "wtforms"
   ],
   "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "*test.py"],
   "python.testing.pytestEnabled": true,

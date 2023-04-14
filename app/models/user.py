@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models.utils import ModelMixin
 from app.logger import log
+from app import schema as s
 
 
 def gen_password_reset_id() -> str:
@@ -57,6 +58,11 @@ class User(db.Model, UserMixin, ModelMixin):
 
     def __repr__(self):
         return f"<{self.id}: {self.username},{self.email}>"
+
+    @property
+    def json(self):
+        u = s.User.from_orm(self)
+        return u.json(by_alias=True)
 
 
 class AnonymousUser(AnonymousUserMixin):

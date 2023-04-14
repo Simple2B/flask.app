@@ -31,7 +31,7 @@ class BaseConfig(BaseSettings):
     ADMIN_PASSWORD: str
 
     # Pagination
-    DEFAULT_PAGE_SIZE: int = 5
+    DEFAULT_PAGE_SIZE: int
     PAGE_LINKS_NUMBER: int = 8
 
     @staticmethod

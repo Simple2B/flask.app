@@ -8,9 +8,11 @@
   <div class="relative w-full max-w-2xl max-h-full">
     <!-- Modal content -->
     <form
-      action="#"
+      action="{{url_for('user.save')}}"
+      method="post"
       class="relative bg-white rounded-lg shadow dark:bg-gray-700"
     >
+      <input type="hidden" name="user_id" id="user-edit-id" value="0" />
       <!-- Modal header -->
       <div
         class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
@@ -43,17 +45,16 @@
         <div class="grid grid-cols-6 gap-6">
           <div class="col-span-6 sm:col-span-3">
             <label
-              for="first-name"
+              for="username"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Name</label
             >
             <input
               type="text"
-              name="first-name"
-              id="first-name"
+              name="username"
+              id="user-edit-username"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Name"
-              value="{{current_user.username}}"
               required
             />
           </div>
@@ -66,41 +67,52 @@
             <input
               type="email"
               name="email"
-              id="email"
+              id="user-edit-email"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="example@company.com"
-              value="{{current_user.email}}"
               required
             />
           </div>
           <div class="col-span-6 sm:col-span-3">
             <label
-              for="current-password"
+              for="activated"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Activated</label
+            >
+            <input
+              type="checkbox"
+              name="activated"
+              id="user-edit-activated"
+              class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required
+            />
+          </div>
+          <div class="col-span-6 sm:col-span-3">
+            <label
+              for="password"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >Current Password</label
             >
             <input
               type="password"
-              name="current-password"
-              id="current-password"
+              name="password"
+              id="user-edit-password"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="••••••••"
-              required=""
             />
           </div>
           <div class="col-span-6 sm:col-span-3">
             <label
-              for="new-password"
+              for="password_confirmation"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >New Password</label
             >
             <input
               type="password"
-              name="new-password"
-              id="new-password"
+              name="password_confirmation"
+              id="user-edit-password_confirmation"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="••••••••"
-              required=""
             />
           </div>
         </div>
@@ -110,6 +122,7 @@
         class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
       >
         <button
+          name="submit"
           type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
