@@ -1,3 +1,4 @@
-import { initUsers } from "./user"
+import './styles.css';
+import { initUsers } from "./user";
 
 initUsers();
