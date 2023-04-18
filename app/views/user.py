@@ -23,12 +23,12 @@ def get_all():
     q = request.args.get("q", type=str, default=None)
     users = m.User.query.order_by(m.User.id)
     if q:
-        users.filter(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
+        users = users.filter(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
 
     pagination = create_pagination(total=users.count())
 
     return render_template(
-        "users.html",
+        "user/users.html",
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
     )
@@ -56,8 +56,6 @@ def save():
     else:
         log(log.ERROR, "User save errors: [%s]", form.errors)
         flash(f"{form.errors}", "danger")
-        # return status_code = 40?
-        # return Response(jsonify(form.errors), status=400)
         return redirect(url_for("user.get_all"))
 
 
