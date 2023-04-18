@@ -1,5 +1,5 @@
-import { Modal } from "flowbite";
-import type { ModalOptions, ModalInterface } from 'flowbite'
+import {Modal} from 'flowbite';
+import type {ModalOptions, ModalInterface} from 'flowbite';
 
 // /*
 //  * $editUserModal: required
@@ -8,62 +8,76 @@ import type { ModalOptions, ModalInterface } from 'flowbite'
 
 // // For your js code
 
-interface IUser{
-    id: number,
-    username: string,
-    email: string,
-    activated: boolean,
+interface IUser {
+  id: number;
+  username: string;
+  email: string;
+  activated: boolean;
 }
 
 const $modalElement: HTMLElement = document.querySelector('#editUserModal');
 
-
 const modalOptions: ModalOptions = {
-    placement: 'bottom-right',
-    backdrop: 'dynamic',
-    backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
-    closable: true,
-    onHide: () => {
-        console.log('modal is hidden');
-    },
-    onShow: () => {
-        console.log('user id: ');
-
-        
-    },
-    onToggle: () => {
-        console.log('modal has been toggled');
-    }
-}
+  placement: 'bottom-right',
+  backdrop: 'dynamic',
+  backdropClasses:
+    'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+    console.log('modal is hidden');
+  },
+  onShow: () => {
+    console.log('user id: ');
+  },
+  onToggle: () => {
+    console.log('modal has been toggled');
+  },
+};
 
 const modal: ModalInterface = new Modal($modalElement, modalOptions);
- 
+
 export function initUsers() {
+  const $buttonElements = document.querySelectorAll('.user-edit-button');
+  $buttonElements.forEach(e =>
+    e.addEventListener('click', () => {
+      editUser(JSON.parse(e.getAttribute('data-target')));
+    }),
+  );
 
-    const $buttonElements = document.querySelectorAll('.user-edit-button');
-    $buttonElements.forEach(e => e.addEventListener('click', () => { editUser(JSON.parse(e.getAttribute('data-target'))) }))
+  const $buttonClose = document.querySelector('#modalCloseButton');
+  if ($buttonClose) {
+    $buttonClose.addEventListener('click', () => {
+      modal.hide();
+    });
+  }
 
-    const $buttonClose = document.querySelector('#modalCloseButton');
-    $buttonClose.addEventListener('click',()=>{modal.hide()})
+  const searchInput: HTMLInputElement = document.querySelector(
+    '#table-search-users',
+  );
+  const searchInputButton = document.querySelector('#table-search-user-button');
+  if (searchInputButton && searchInput) {
+    searchInputButton.addEventListener('click', () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('q', searchInput.value);
+      window.location.href = `${url.href}`;
+    });
+  }
 }
 
-
-
-
 function editUser(user: IUser) {
-    let input: HTMLInputElement = document.querySelector('#user-edit-username');
-    input.value = user.username;
-    input = document.querySelector('#user-edit-id');
-    input.value = user.id.toString();
-    input = document.querySelector('#user-edit-email');
-    input.value = user.email;
-    input = document.querySelector('#user-edit-password');
-    input.value = "*******";
-    input = document.querySelector('#user-edit-password_confirmation');
-    input.value = "*******";
-    input = document.querySelector('#user-edit-activated');
-    input.checked = user.activated;
-    input = document.querySelector('#user-edit-next_url');
-    input.value = window.location.href
-    modal.show();
+  let input: HTMLInputElement = document.querySelector('#user-edit-username');
+  input.value = user.username;
+  input = document.querySelector('#user-edit-id');
+  input.value = user.id.toString();
+  input = document.querySelector('#user-edit-email');
+  input.value = user.email;
+  input = document.querySelector('#user-edit-password');
+  input.value = '*******';
+  input = document.querySelector('#user-edit-password_confirmation');
+  input.value = '*******';
+  input = document.querySelector('#user-edit-activated');
+  input.checked = user.activated;
+  input = document.querySelector('#user-edit-next_url');
+  input.value = window.location.href;
+  modal.show();
 }
