@@ -75,6 +75,21 @@ export function initUsers() {
       window.location.href = `${url.href}`;
     });
   }
+  const deleteButtons = document.querySelectorAll('.delete-user-btn');
+
+  deleteButtons.forEach(e => {
+    e.addEventListener('click', async () => {
+      if (confirm('Are sure?')) {
+        let id = e.getAttribute('data-user-id');
+        const response = await fetch(`/user/delete/${id}`, {
+          method: 'DELETE',
+        });
+        if (response.status == 200) {
+          location.reload();
+        }
+      }
+    });
+  });
 }
 
 function editUser(user: IUser) {
