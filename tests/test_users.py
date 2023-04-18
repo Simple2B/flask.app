@@ -42,3 +42,12 @@ def test_populate_db(runner: FlaskCliRunner):
     res: Result = runner.invoke(args=["db-populate", "--count", f"{TEST_COUNT}"])
     assert f"populated by {TEST_COUNT}" in res.stdout
     assert (m.User.query.count() - count_before) == TEST_COUNT
+
+
+def test_delete_user(populate: FlaskClient):
+    login(populate)
+    users = m.User.query.all()
+    uc = len(users)
+    response = populate.delete("/user/delete/1")
+    assert m.User.query.count() < uc
+    assert response.status_code == 200
