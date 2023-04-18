@@ -1,11 +1,11 @@
 # Need implement ✅
 
-- Forgot password & Registration - Eugene
-- Paginated view (Users table) - Kostia
+- Forgot password & Registration - ✅
+- Paginated view (Users table) - ✅
 - Flash boxes closed by timeout (10sec) - Kostia
 - NavBar & SideBar - Kostia
 
 # New Ideas
 
-- Dou factoring auth
+- Duo factoring auth
 - Cookies agree
