@@ -55,7 +55,7 @@ export function initUsers() {
             const response = await fetch(`/user/delete/${id}`, {
               method: "DELETE",
             });
-            if (response.status == 302) {
+            if (response.status == 200) {
               location.reload();
             }
           }

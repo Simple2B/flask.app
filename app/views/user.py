@@ -85,10 +85,10 @@ def delete(id):
     if not u:
         log(log.INFO, "There is no user with id: [%s]", id)
         flash("There is no such user", "danger")
-        return redirect(url_for("user.get_all"))
+        return "no user", 404
 
     db.session.delete(u)
     db.session.commit()
     log(log.INFO, "User deleted. User: [%s]", u)
     flash("User deleted!", "success")
-    return redirect(url_for("user.get_all"))
+    return "ok", 200

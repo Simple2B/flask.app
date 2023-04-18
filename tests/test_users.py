@@ -50,4 +50,4 @@ def test_delete_user(populate: FlaskClient):
     uc = len(users)
     response = populate.delete("/user/delete/1")
     assert m.User.query.count() < uc
-    assert response.status_code == 302
+    assert response.status_code == 200
