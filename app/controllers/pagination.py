@@ -5,7 +5,7 @@ from app import schema as s
 
 def create_pagination(total: int, page_size: int = 0) -> s.Pagination:
     """create instance Pagination for current request"""
-    q = request.args.get("q", type=str, default=None)
+    q = request.args.get("q", type=str, default="")
     page = request.args.get("page", type=int, default=1)
     page_size = page_size or app.config["DEFAULT_PAGE_SIZE"]
     PAGE_LINKS_NUMBER: int = app.config["PAGE_LINKS_NUMBER"]

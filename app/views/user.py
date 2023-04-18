@@ -9,7 +9,7 @@ from flask import (
 from flask_login import login_required
 from app.controllers import create_pagination
 
-from app import models as m
+from app import models as m, db
 from app import forms as f
 from app.logger import log
 
@@ -23,12 +23,12 @@ def get_all():
     q = request.args.get("q", type=str, default=None)
     users = m.User.query.order_by(m.User.id)
     if q:
-        users.filter(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
+        users = users.filter(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
 
     pagination = create_pagination(total=users.count())
 
     return render_template(
-        "users.html",
+        "user/users.html",
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
     )
@@ -56,8 +56,6 @@ def save():
     else:
         log(log.ERROR, "User save errors: [%s]", form.errors)
         flash(f"{form.errors}", "danger")
-        # return status_code = 40?
-        # return Response(jsonify(form.errors), status=400)
         return redirect(url_for("user.get_all"))
 
 
@@ -76,3 +74,19 @@ def create():
         flash("User added!", "success")
         user.save()
         return redirect(url_for("user.get_all"))
+
+
+@bp.route("/delete/<id>", methods=["DELETE"])
+@login_required
+def delete(id):
+    u = m.User.query.filter_by(id=id).first()
+    if not u:
+        log(log.INFO, "There is no user with id: [%s]", id)
+        flash("There is no such user", "danger")
+        return "no user", 404
+
+    db.session.delete(u)
+    db.session.commit()
+    log(log.INFO, "User deleted. User: [%s]", u)
+    flash("User deleted!", "success")
+    return "ok", 200

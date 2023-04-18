@@ -30,7 +30,7 @@
     {% endblock %}
   </head>
 
-  <body>
+  <body class="bg-white dark:bg-gray-800">
     <!-- Header -->
     <!-- prettier-ignore -->
     {% include 'header.html' %}
@@ -75,13 +75,9 @@
     <!-- prettier-ignore -->
     {% include 'sidebar.html' %}
 
-    <div class="p-4 sm:ml-64">
-      <div
-        class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14"
-      >
-        <!-- Main Content -->
-        {% block content %}{% endblock %}
-      </div>
+    <div class="sm:ml-64 mt-14 h-full overflow-x-scroll">
+      <!-- Main Content -->
+      {% block content %}{% endblock %}
     </div>
     {% endblock %}
     <!-- scripts -->
