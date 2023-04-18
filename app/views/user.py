@@ -28,7 +28,7 @@ def get_all():
     pagination = create_pagination(total=users.count())
 
     return render_template(
-        "users.html",
+        "user/users.html",
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
     )

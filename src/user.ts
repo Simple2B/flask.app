@@ -16,6 +16,8 @@ interface IUser {
 }
 
 const $modalElement: HTMLElement = document.querySelector('#editUserModal');
+const $addUserModalElement: HTMLElement =
+  document.querySelector('#add-user-modal');
 
 const modalOptions: ModalOptions = {
   placement: 'bottom-right',
@@ -35,6 +37,7 @@ const modalOptions: ModalOptions = {
 };
 
 const modal: ModalInterface = new Modal($modalElement, modalOptions);
+const addModal: ModalInterface = new Modal($addUserModalElement, modalOptions);
 
 export function initUsers() {
   const $buttonElements = document.querySelectorAll('.user-edit-button');
@@ -44,6 +47,7 @@ export function initUsers() {
     }),
   );
 
+  // closing add edit modal
   const $buttonClose = document.querySelector('#modalCloseButton');
   if ($buttonClose) {
     $buttonClose.addEventListener('click', () => {
@@ -51,6 +55,15 @@ export function initUsers() {
     });
   }
 
+  // closing add user modal
+  const addModalCloseBtn = document.querySelector('#modalAddCloseButton');
+  if (addModalCloseBtn) {
+    addModalCloseBtn.addEventListener('click', () => {
+      addModal.hide();
+    });
+  }
+
+  // search flow
   const searchInput: HTMLInputElement = document.querySelector(
     '#table-search-users',
   );
