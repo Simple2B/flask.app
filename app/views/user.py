@@ -9,7 +9,7 @@ from flask import (
 from flask_login import login_required
 from app.controllers import create_pagination
 
-from app import models as m
+from app import models as m, db
 from app import forms as f
 from app.logger import log
 
@@ -76,3 +76,14 @@ def create():
         flash("User added!", "success")
         user.save()
         return redirect(url_for("user.get_all"))
+
+
+@bp.route("/delete/<id>", methods=["POST"])
+@login_required
+def delete(id):
+    u = m.User.query.filter_by(id=id).first()
+    db.session.delete(u)
+    db.session.commit()
+    log(log.INFO, "User deleted. User: [%s]", u)
+    flash("User deleted!", "success")
+    return redirect(url_for("user.get_all"))

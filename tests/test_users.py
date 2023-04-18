@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask.testing import FlaskClient, FlaskCliRunner
 from click.testing import Result
-from app import models as m
+from app import models as m, db
 from tests.utils import login
 
 
@@ -42,3 +42,13 @@ def test_populate_db(runner: FlaskCliRunner):
     res: Result = runner.invoke(args=["db-populate", "--count", f"{TEST_COUNT}"])
     assert f"populated by {TEST_COUNT}" in res.stdout
     assert (m.User.query.count() - count_before) == TEST_COUNT
+
+
+def test_delete_user(populate: FlaskClient):
+    login(populate)
+    users = m.User.query.all()
+    uc = len(users)
+    id = users[0].id
+    response = populate.post(f"/user/delete/{id}")
+    assert len(m.User.query.all()) < uc
+    assert response.status_code == 302

@@ -45,6 +45,21 @@ export function initUsers() {
 
     const $buttonClose = document.querySelector('#modalCloseButton');
     $buttonClose.addEventListener('click',()=>{modal.hide()})
+
+    const deleteButtons = document.querySelectorAll('button[name="delete-user-btn"]');
+    deleteButtons.forEach((e) => {
+        e.addEventListener("click", async () => {
+          if (confirm("Are sure?")) {
+            const response = await fetch(`/user/delete/${e.id}`, {
+              method: "POST",
+            });
+    
+            if (response.status == 200) {
+              location.reload();
+            }
+          }
+        });
+      });
 }
 
 
