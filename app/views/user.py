@@ -31,6 +31,7 @@ def get_all():
         "user/users.html",
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
+        search_query=q,
     )
 
 
