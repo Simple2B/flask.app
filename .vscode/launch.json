@@ -15,7 +15,9 @@
                 "FLASK_DEBUG": "1"
             },
             "args": [
-                "run"
+                "run",
+                "--port",
+                "5006"
             ],
             "jinja": true,
             "justMyCode": false
