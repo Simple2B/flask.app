@@ -1,5 +1,5 @@
-import {Modal} from 'flowbite';
-import type {ModalOptions, ModalInterface} from 'flowbite';
+import {Modal, Dismiss, DismissOptions} from 'flowbite';
+import type {ModalOptions, ModalInterface, DismissInterface} from 'flowbite';
 
 // /*
 //  * $editUserModal: required
@@ -39,6 +39,21 @@ const modalOptions: ModalOptions = {
 const modal: ModalInterface = new Modal($modalElement, modalOptions);
 const addModal: ModalInterface = new Modal($addUserModalElement, modalOptions);
 
+const toast: HTMLElement = document.querySelector('.toast');
+const toastCloseBtn: HTMLElement = document.getElementById('toast-close-btn');
+
+const optionsToasts: DismissOptions = {
+  transition: 'transition-opacity',
+  duration: 1000,
+  timing: 'ease-out',
+
+  // callback functions
+  onHide: (context, toast) => {
+    console.log('element has been dismissed');
+    console.log(toast);
+  },
+};
+
 export function initUsers() {
   const $buttonElements = document.querySelectorAll('.user-edit-button');
   $buttonElements.forEach(e =>
@@ -75,6 +90,8 @@ export function initUsers() {
       window.location.href = `${url.href}`;
     });
   }
+
+  // delete user flow
   const deleteButtons = document.querySelectorAll('.delete-user-btn');
 
   deleteButtons.forEach(e => {
@@ -90,6 +107,21 @@ export function initUsers() {
       }
     });
   });
+
+  // disabling toasts flow
+  const dismissToast: DismissInterface = new Dismiss(
+    toast,
+    toastCloseBtn,
+    optionsToasts,
+  );
+  if (toastCloseBtn) {
+    toastCloseBtn.addEventListener('click', () => {
+      dismissToast.hide();
+    });
+    setTimeout(() => {
+      dismissToast.hide();
+    }, 10000);
+  }
 }
 
 function editUser(user: IUser) {

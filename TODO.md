@@ -2,8 +2,8 @@
 
 - Forgot password & Registration - ✅
 - Paginated view (Users table) - ✅
-- Flash boxes closed by timeout (10sec) - Kostia
-- NavBar & SideBar - Kostia
+- Flash boxes closed by timeout (10sec) - ✅
+- NavBar & SideBar - ✅
 
 # New Ideas
 
