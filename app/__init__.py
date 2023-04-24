@@ -6,7 +6,6 @@ from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from flask_migrate import Migrate
 from flask_mail import Mail
-from flask_wtf.csrf import CSRFProtect
 
 from app.logger import log
 
@@ -15,7 +14,6 @@ login_manager = LoginManager()
 db = SQLAlchemy()
 migration = Migrate()
 mail = Mail()
-csrf = CSRFProtect()
 
 
 def create_app(environment="development"):
@@ -33,7 +31,6 @@ def create_app(environment="development"):
 
     # Instantiate app.
     app = Flask(__name__)
-    csrf.init_app(app)
     # Set app config.
     env = os.environ.get("APP_ENV", environment)
     configuration = config(env)

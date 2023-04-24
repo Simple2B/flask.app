@@ -31,6 +31,7 @@ def get_all():
         "user/users.html",
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
+        form=f.NewUserForm(),
     )
 
 
@@ -75,8 +76,8 @@ def create():
         user.save()
         return redirect(url_for("user.get_all"))
     else:
-        log(log.ERROR, "Form is not valid")
-        flash("Form is not valid!", "danger")
+        log(log.ERROR, "User save errors: [%s]", form.errors)
+        flash(f"Form is not valid! {form.errors}", "danger")
         return redirect(url_for("user.get_all"))
 
 
