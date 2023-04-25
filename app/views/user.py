@@ -32,6 +32,7 @@ def get_all():
         users=users.paginate(page=pagination.page, per_page=pagination.per_page),
         page=pagination,
         form=f.NewUserForm(),
+        search_query=q,
     )
 
 
