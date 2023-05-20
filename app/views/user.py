@@ -23,15 +23,20 @@ bp = Blueprint("user", __name__, url_prefix="/user")
 def get_all():
     q = request.args.get("q", type=str, default=None)
     query = m.User.select().order_by(m.User.id)
+    count_query = sa.select(sa.func.count()).select_from(m.User)
     if q:
         query = (
             m.User.select()
             .where(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
             .order_by(m.User.id)
         )
+        count_query = (
+            sa.select(sa.func.count())
+            .where(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
+            .select_from(m.User)
+        )
 
-    query_count = sa.select(sa.func.count()).select_from(query)
-    pagination = create_pagination(total=db.session.scalar(query_count))
+    pagination = create_pagination(total=db.session.scalar(count_query))
 
     return render_template(
         "user/users.html",
