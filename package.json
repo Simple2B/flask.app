@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack --watch",
-    "build": "webpack"
+    "js-watch": "webpack --config webpack.dev.js --watch",
+    "js": "webpack --config webpack.prod.js",
+    "css": "tailwindcss -i ./src/styles.css -o ./app/static/css/styles.css --minify",
+    "css-watch": "tailwindcss -i ./src/styles.css -o ./app/static/css/styles.css --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ethers": "5.5.3",
     "flowbite": "^1.6.4",
     "tailwindcss": "^3.2.7"
   },
@@ -24,6 +26,7 @@
     "typescript": "^5.0.4",
     "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.2"
+    "webpack-dev-server": "^4.13.2",
+    "webpack-merge": "^5.8.0"
   }
 }

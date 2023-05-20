@@ -12,7 +12,8 @@
 
     <!-- styles -->
     <!-- prettier-ignore -->
-    <!-- <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet"/> -->
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <!-- prettier-ignore -->
     <script>
       // On page load or when changing themes, best to add inline in `head` to avoid FOUC
       if (
@@ -68,7 +69,7 @@
     {% endfor %}
     {% endif %}
     {% endwith %}
-    
+
     {% block body %}
 
     <!-- SideBar -->
@@ -83,11 +84,8 @@
     <!-- scripts -->
 
     <!-- prettier-ignore -->
-    <script src="{{ url_for('static', filename='js/flowbite.min.js') }}" defer></script>
-    <!-- prettier-ignore -->
     <script src="{{ url_for('static', filename='js/main.js') }}" type="text/javascript" defer></script>
-    <!-- prettier-ignore -->
-    {% block scripts %}
-    {% endblock %}
+
+    {% block scripts %} {% endblock %}
   </body>
 </html>

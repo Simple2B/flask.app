@@ -1,0 +1,2 @@
+yarn js;
+yarn css;
