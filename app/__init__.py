@@ -1,33 +1,28 @@
 import os
 
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from flask_migrate import Migrate
 from flask_mail import Mail
 
 from app.logger import log
+from .database import db
 
 # instantiate extensions
 login_manager = LoginManager()
-db = SQLAlchemy()
 migration = Migrate()
 mail = Mail()
 
 
 def create_app(environment="development"):
-
     from config import config
     from app.views import (
         main_blueprint,
         auth_blueprint,
         user_blueprint,
     )
-    from app.models import (
-        User,
-        AnonymousUser,
-    )
+    from app import models as m
 
     # Instantiate app.
     app = Flask(__name__)
@@ -52,12 +47,13 @@ def create_app(environment="development"):
 
     # Set up flask login.
     @login_manager.user_loader
-    def get_user(id):
-        return User.query.get(int(id))
+    def get_user(id: int):
+        query = m.User.select().where(m.User.id == int(id))
+        return db.session.scalar(query)
 
     login_manager.login_view = "auth.login"
     login_manager.login_message_category = "info"
-    login_manager.anonymous_user = AnonymousUser
+    login_manager.anonymous_user = m.AnonymousUser
 
     # Error handlers.
     @app.errorhandler(HTTPException)

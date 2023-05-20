@@ -48,13 +48,13 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration."""
 
     DEBUG: bool = True
-    SQLALCHEMY_DATABASE_URI: str = "sqlite:///" + os.path.join(
+    ALCHEMICAL_DATABASE_URL: str = "sqlite:///" + os.path.join(
         BASE_DIR, "database-dev.sqlite3"
     )
 
     class Config:
         fields = {
-            "SQLALCHEMY_DATABASE_URI": {
+            "ALCHEMICAL_DATABASE_URL": {
                 "env": "DEVEL_DATABASE_URL",
             }
         }
@@ -65,13 +65,13 @@ class TestingConfig(BaseConfig):
 
     TESTING: bool = True
     PRESERVE_CONTEXT_ON_EXCEPTION: bool = False
-    SQLALCHEMY_DATABASE_URI: str = "sqlite:///" + os.path.join(
+    ALCHEMICAL_DATABASE_URL: str = "sqlite:///" + os.path.join(
         BASE_DIR, "database-test.sqlite3"
     )
 
     class Config:
         fields = {
-            "SQLALCHEMY_DATABASE_URI": {
+            "ALCHEMICAL_DATABASE_URL": {
                 "env": "TEST_DATABASE_URL",
             }
         }
@@ -80,14 +80,14 @@ class TestingConfig(BaseConfig):
 class ProductionConfig(BaseConfig):
     """Production configuration."""
 
-    SQLALCHEMY_DATABASE_URI: str = os.environ.get(
+    ALCHEMICAL_DATABASE_URL: str = os.environ.get(
         "DATABASE_URL", "sqlite:///" + os.path.join(BASE_DIR, "database.sqlite3")
     )
     WTF_CSRF_ENABLED = True
 
     class Config:
         fields = {
-            "SQLALCHEMY_DATABASE_URI": {
+            "ALCHEMICAL_DATABASE_URL": {
                 "env": "DATABASE_URL",
             }
         }

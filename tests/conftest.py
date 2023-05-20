@@ -30,7 +30,6 @@ def client(app: Flask):
         register()
 
         yield client
-        db.session.remove()
         db.drop_all()
         app_ctx.pop()
 

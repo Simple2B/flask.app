@@ -4,7 +4,9 @@ from flask import url_for
 
 from app import mail
 from app import models as m
+from app import db
 from tests.utils import register, login, logout
+
 
 TEST_EMAIL = "saintkos117@gmail.com"
 
@@ -24,7 +26,6 @@ def test_register(client):
     TEST_EMAIL = "sam@test.com"
 
     with mail.record_messages() as outbox:
-
         response = client.post(
             "/register",
             data=dict(
@@ -36,6 +37,8 @@ def test_register(client):
             follow_redirects=True,
         )
 
+        assert response
+
         assert (
             b"Registration successful. Checkout you email for confirmation!."
             in response.data
@@ -45,7 +48,7 @@ def test_register(client):
         assert "toast-success" in response.data.decode()
         assert "toast-danger" not in response.data.decode()
 
-        user = m.User.query.filter_by(email=TEST_EMAIL).first()
+        user = db.session.query(m.User).filter_by(email=TEST_EMAIL).first()
         assert user
 
         assert len(outbox) == 1
@@ -62,7 +65,7 @@ def test_register(client):
         response = client.get(url)
         assert response.status_code == 302
         response.location == url_for("main.index")
-        user: m.User = m.User.query.filter_by(email=TEST_EMAIL).first()
+        user: m.User = db.session.query(m.User).filter_by(email=TEST_EMAIL).first()
         assert user
         assert user.activated
 
@@ -96,7 +99,9 @@ def test_forgot(client):
             b"Password reset successful. For set new password please check your e-mail."
             in response.data
         )
-        user: m.User = m.User.query.filter(m.User.email == TEST_EMAIL).first()
+        user: m.User = db.session.scalar(
+            m.User.select().where(m.User.email == TEST_EMAIL)
+        )
         assert user
 
         assert len(outbox) == 1

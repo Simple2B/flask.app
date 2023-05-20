@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from app import models as m
 from app import forms as f
-from app import mail
+from app import mail, db
 from app.logger import log
 
 
@@ -88,9 +88,8 @@ def activate(reset_password_uid):
 
         return redirect(url_for("main.index"))
 
-    user: m.User | None = m.User.query.filter(
-        m.User.unique_id == reset_password_uid
-    ).first()
+    query = m.User.select().where(m.User.unique_id == reset_password_uid)
+    user: m.User | None = db.session.scalar(query)
 
     if not user:
         log(log.INFO, "User not found")
@@ -109,7 +108,8 @@ def activate(reset_password_uid):
 def forgot_pass():
     form = f.ForgotForm(request.form)
     if form.validate_on_submit():
-        user: m.User = m.User.query.filter_by(email=form.email.data).first()
+        query = m.User.select().where(m.User.email == form.email.data)
+        user: m.User = db.session.scalar(query)
         # create e-mail message
         msg = Message(
             subject="Reset password",
@@ -145,7 +145,8 @@ def password_recovery(reset_password_uid):
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))
 
-    user: m.User = m.User.query.filter_by(unique_id=reset_password_uid).first()
+    query = m.User.select().where(m.User.unique_id == reset_password_uid)
+    user: m.User = db.session.scalar(query)
 
     if not user:
         flash("Incorrect reset password link", "danger")

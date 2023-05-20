@@ -36,6 +36,22 @@
                 ],
                 "projectType": "flask"
             }
+        },
+        {
+            "name": "create-admin",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "wsgi:app",
+                "APP_ENV": "development",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "create-admin"
+            ],
+            "jinja": true,
+            "justMyCode": false
         }
     ]
 }

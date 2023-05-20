@@ -9,6 +9,7 @@ from wtforms import (
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 from app import models as m
+from app import db
 
 
 class UserForm(FlaskForm):
@@ -28,21 +29,21 @@ class UserForm(FlaskForm):
     submit = SubmitField("Save")
 
     def validate_username(self, field):
-        if (
-            m.User.query.filter_by(username=field.data)
-            .filter(m.User.id != int(self.user_id.data))
-            .first()
-            is not None
-        ):
+        query = (
+            m.User.select()
+            .where(m.User.username == field.data)
+            .where(m.User.id != int(self.user_id.data))
+        )
+        if db.session.scalar(query) is not None:
             raise ValidationError("This username is taken.")
 
     def validate_email(self, field):
-        if (
-            m.User.query.filter_by(email=field.data)
-            .filter(m.User.id != int(self.user_id.data))
-            .first()
-            is not None
-        ):
+        query = (
+            m.User.select()
+            .where(m.User.email == field.data)
+            .where(m.User.id != int(self.user_id.data))
+        )
+        if db.session.scalar(query) is not None:
             raise ValidationError("This email is already registered.")
 
 
@@ -61,9 +62,11 @@ class NewUserForm(FlaskForm):
     submit = SubmitField("Save")
 
     def validate_username(self, field):
-        if m.User.query.filter_by(username=field.data).first() is not None:
+        query = m.User.select().where(m.User.username == field.data)
+        if db.session.scalar(query) is not None:
             raise ValidationError("This username is taken.")
 
     def validate_email(self, field):
-        if m.User.query.filter_by(email=field.data).first() is not None:
+        query = m.User.select().where(m.User.email == field.data)
+        if db.session.scalar(query) is not None:
             raise ValidationError("This email is already registered.")

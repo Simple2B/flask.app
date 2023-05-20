@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask.testing import FlaskClient, FlaskCliRunner
 from click.testing import Result
-from app import models as m
+from app import models as m, db
 from tests.utils import login
 
 
@@ -12,7 +12,7 @@ def test_list(populate: FlaskClient):
     assert response
     assert response.status_code == 200
     html = response.data.decode()
-    users = m.User.query.order_by(m.User.id).limit(11).all()
+    users = db.session.scalars(m.User.select().order_by(m.User.id).limit(11)).all()
     assert len(users) == 11
     for user in users[:DEFAULT_PAGE_SIZE]:
         assert user.username in html
@@ -33,21 +33,21 @@ def test_list(populate: FlaskClient):
 def test_create_admin(runner: FlaskCliRunner):
     res: Result = runner.invoke(args=["create-admin"])
     assert "admin created" in res.output
-    assert m.User.query.filter_by(username=app.config["ADMIN_USERNAME"]).first()
+    query = m.User.select().where(m.User.username == app.config["ADMIN_USERNAME"])
+    assert db.session.scalar(query)
 
 
 def test_populate_db(runner: FlaskCliRunner):
     TEST_COUNT = 56
-    count_before = m.User.query.count()
+    count_before = db.session.query(m.User).count()
     res: Result = runner.invoke(args=["db-populate", "--count", f"{TEST_COUNT}"])
     assert f"populated by {TEST_COUNT}" in res.stdout
-    assert (m.User.query.count() - count_before) == TEST_COUNT
+    assert (db.session.query(m.User).count() - count_before) == TEST_COUNT
 
 
 def test_delete_user(populate: FlaskClient):
     login(populate)
-    users = m.User.query.all()
-    uc = len(users)
+    uc = db.session.query(m.User).count()
     response = populate.delete("/user/delete/1")
-    assert m.User.query.count() < uc
+    assert db.session.query(m.User).count() < uc
     assert response.status_code == 200

@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 from app.models import User
+from app import db
 
 
 class LoginForm(FlaskForm):
@@ -25,11 +26,13 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Register")
 
     def validate_username(form, field):
-        if User.query.filter_by(username=field.data).first() is not None:
+        query = User.select().where(User.username == field.data)
+        if db.session.scalar(query) is not None:
             raise ValidationError("This username is taken.")
 
     def validate_email(form, field):
-        if User.query.filter_by(email=field.data).first() is not None:
+        query = User.select().where(User.email == field.data)
+        if db.session.scalar(query) is not None:
             raise ValidationError("This email is already registered.")
 
 
@@ -37,7 +40,8 @@ class ForgotForm(FlaskForm):
     email = StringField("Email Address", validators=[DataRequired(), Email()])
 
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
+        query = User.select().where(User.email == email.data)
+        user = db.session.scalar(query)
         if not user:
             raise ValidationError("Email not found")
 
