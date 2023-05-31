@@ -8,7 +8,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.database import db
-from app.models.utils import ModelMixin
+from .utils import ModelMixin
 from app.logger import log
 from app import schema as s
 
