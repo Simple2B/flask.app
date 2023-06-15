@@ -2,7 +2,7 @@ FROM python:3.11
 
 # Add user app
 RUN python -m pip install -U pip
-RUN adduser -D app
+RUN adduser -uid 2001 app
 USER app
 WORKDIR /home/app
 
