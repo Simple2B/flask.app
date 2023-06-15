@@ -39,58 +39,56 @@ const modalOptions: ModalOptions = {
 const modal: ModalInterface = new Modal($modalElement, modalOptions);
 const addModal: ModalInterface = new Modal($addUserModalElement, modalOptions);
 
-export function initUsers() {
-  const $buttonElements = document.querySelectorAll('.user-edit-button');
-  $buttonElements.forEach(e =>
-    e.addEventListener('click', () => {
-      editUser(JSON.parse(e.getAttribute('data-target')));
-    }),
-  );
+const $buttonElements = document.querySelectorAll('.user-edit-button');
+$buttonElements.forEach(e =>
+  e.addEventListener('click', () => {
+    editUser(JSON.parse(e.getAttribute('data-target')));
+  }),
+);
 
-  // closing add edit modal
-  const $buttonClose = document.querySelector('#modalCloseButton');
-  if ($buttonClose) {
-    $buttonClose.addEventListener('click', () => {
-      modal.hide();
-    });
-  }
-
-  // closing add user modal
-  const addModalCloseBtn = document.querySelector('#modalAddCloseButton');
-  if (addModalCloseBtn) {
-    addModalCloseBtn.addEventListener('click', () => {
-      addModal.hide();
-    });
-  }
-
-  // search flow
-  const searchInput: HTMLInputElement = document.querySelector(
-    '#table-search-users',
-  );
-  const searchInputButton = document.querySelector('#table-search-user-button');
-  if (searchInputButton && searchInput) {
-    searchInputButton.addEventListener('click', () => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('q', searchInput.value);
-      window.location.href = `${url.href}`;
-    });
-  }
-  const deleteButtons = document.querySelectorAll('.delete-user-btn');
-
-  deleteButtons.forEach(e => {
-    e.addEventListener('click', async () => {
-      if (confirm('Are sure?')) {
-        let id = e.getAttribute('data-user-id');
-        const response = await fetch(`/user/delete/${id}`, {
-          method: 'DELETE',
-        });
-        if (response.status == 200) {
-          location.reload();
-        }
-      }
-    });
+// closing add edit modal
+const $buttonClose = document.querySelector('#modalCloseButton');
+if ($buttonClose) {
+  $buttonClose.addEventListener('click', () => {
+    modal.hide();
   });
 }
+
+// closing add user modal
+const addModalCloseBtn = document.querySelector('#modalAddCloseButton');
+if (addModalCloseBtn) {
+  addModalCloseBtn.addEventListener('click', () => {
+    addModal.hide();
+  });
+}
+
+// search flow
+const searchInput: HTMLInputElement = document.querySelector(
+  '#table-search-users',
+);
+const searchInputButton = document.querySelector('#table-search-user-button');
+if (searchInputButton && searchInput) {
+  searchInputButton.addEventListener('click', () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('q', searchInput.value);
+    window.location.href = `${url.href}`;
+  });
+}
+const deleteButtons = document.querySelectorAll('.delete-user-btn');
+
+deleteButtons.forEach(e => {
+  e.addEventListener('click', async () => {
+    if (confirm('Are sure?')) {
+      let id = e.getAttribute('data-user-id');
+      const response = await fetch(`/user/delete/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.status == 200) {
+        location.reload();
+      }
+    }
+  });
+});
 
 function editUser(user: IUser) {
   let input: HTMLInputElement = document.querySelector('#user-edit-username');

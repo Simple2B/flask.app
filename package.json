@@ -1,23 +1,26 @@
 {
   "name": "static",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "js-watch": "webpack --config webpack.dev.js --watch",
     "js": "webpack --config webpack.prod.js",
     "css": "tailwindcss -i ./src/styles.css -o ./app/static/css/styles.css --minify",
-    "css-watch": "tailwindcss -i ./src/styles.css -o ./app/static/css/styles.css --watch"
+    "css-watch": "tailwindcss -i ./src/styles.css -o ./app/static/css/styles.css --watch",
+    "build": "yarn css && yarn js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ethers": "5.5.3",
     "flowbite": "^1.6.4",
     "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "mini-css-extract-plugin": "^2.7.5",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.2.4",
     "postcss-preset-env": "^8.3.1",
@@ -26,7 +29,6 @@
     "typescript": "^5.0.4",
     "webpack": "^5.79.0",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-dev-server": "^4.13.2"
   }
 }
