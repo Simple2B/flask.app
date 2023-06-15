@@ -64,6 +64,7 @@ jobs:
         with:
           push: true
           tags: simple2b/flask-app:latest
+
   # deploy:
   #   runs-on: Linux
   #   needs: build
