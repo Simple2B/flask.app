@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-passwd}
+      POSTGRES_DB: db
+      PGDATABASE: db
+      PGPASSWORD: ${POSTGRES_PASSWORD:-passwd}
+      PGUSER: ${POSTGRES_USER:-postgres}
+    ports:
+      - 127.0.0.1:${LOCAL_DB_PORT:-15432}:5432
+
+  app:
+    image: simple2b/flask-app:latest
+    restart: always
+    command: ./start_server.sh
+    environment:
+      APP_ENV: production
+    depends_on:
+      - db
+    ports:
+      - 127.0.0.1:${LOCAL_WEB_PORT:-8000}:8000
+
+volumes:
+  db_data:

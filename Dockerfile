@@ -1,13 +1,4 @@
-FROM python:3.11-alpine
-
-# install build utils and dependencies
-RUN apk update && apk upgrade
-RUN apk add --no-cache pkgconfig \
-    gcc \
-    musl-dev \
-    libffi-dev \
-    && rm -rf /var/cache/apk/*
-
+FROM python:3.11
 
 # Add user app
 RUN python -m pip install -U pip
@@ -36,3 +27,4 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 RUN poetry add gunicorn
 
 COPY --chown=app:app . .
+RUN chmod +x ./start_server.sh
