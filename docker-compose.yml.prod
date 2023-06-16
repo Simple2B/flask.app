@@ -17,7 +17,7 @@ services:
   app:
     image: simple2b/flask-app:latest
     restart: always
-    command: ./start_server.sh
+    command: sh ./start_server.sh
     environment:
       APP_ENV: production
     depends_on:
