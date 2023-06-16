@@ -13,8 +13,6 @@ services:
       PGDATABASE: db
       PGPASSWORD: ${POSTGRES_PASSWORD:-passwd}
       PGUSER: ${POSTGRES_USER:-postgres}
-    ports:
-      - 127.0.0.1:${LOCAL_DB_PORT:-15432}:5432
 
   app:
     image: simple2b/flask-app:latest
