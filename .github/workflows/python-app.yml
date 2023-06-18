@@ -14,9 +14,9 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        python-version: [3.11]
-        poetry-version: [1.5.1]
-        os: [ubuntu-latest]
+        python-version: [3.11, 3.10]
+        poetry-version: [1.5.1, 1.4.1]
+        os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -76,4 +76,5 @@ jobs:
   #         username: ${{ secrets.SSH_USER }}
   #         key: ${{ secrets.SSH_KEY }}
   #         script: |
-  #           sudo su -l runner -c "cd flask.app; ./up.sh"
+  #           cd app
+  #           ./up.sh
