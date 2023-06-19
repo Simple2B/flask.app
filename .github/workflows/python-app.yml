@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: [3.11]
         poetry-version: [1.5.1]
-        os: [gh-runner-flask-app]
+        os: [Linux]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -45,7 +45,7 @@ jobs:
       matrix:
         python-version: [3.11]
         poetry-version: [1.5.1]
-        os: [gh-runner-flask-app]
+        os: [Linux]
     runs-on: ${{ matrix.os }}
     # if: github.ref == 'refs/heads/auto-build'
     needs: tests
@@ -66,7 +66,7 @@ jobs:
           tags: simple2b/flask-app:latest
 
   deploy:
-    runs-on: gh-runner-flask-app
+    runs-on: Linux
     needs: build
     steps:
       - name: Deploy flask.app
