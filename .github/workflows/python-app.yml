@@ -75,6 +75,7 @@ jobs:
           host: ${{ secrets.SSH_HOST_IP_PROD }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
           script: |
             cd app
             ./up
