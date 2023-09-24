@@ -2,7 +2,7 @@ from flask import current_app as app
 from flask.testing import FlaskClient, FlaskCliRunner
 from click.testing import Result
 from app import models as m, db
-from tests.utils import login
+from test_flask.utils import login
 
 
 def test_list(populate: FlaskClient):

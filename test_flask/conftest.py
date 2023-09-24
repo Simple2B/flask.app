@@ -1,10 +1,14 @@
 import pytest
+from dotenv import load_dotenv
 from flask import Flask
 from flask.testing import FlaskClient
 
 from app import create_app, db
 from app import models as m
-from tests.utils import register
+from test_flask.utils import register
+
+
+load_dotenv("test_flask/test.env")
 
 
 @pytest.fixture()

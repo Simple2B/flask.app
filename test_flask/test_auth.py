@@ -5,7 +5,7 @@ from flask import url_for
 from app import mail
 from app import models as m
 from app import db
-from tests.utils import register, login, logout
+from test_flask.utils import register, login, logout
 
 
 TEST_EMAIL = "saintkos117@gmail.com"

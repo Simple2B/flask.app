@@ -30,6 +30,7 @@ def create_app(environment="development"):
     # Set app config.
     env = os.environ.get("APP_ENV", environment)
     configuration = config(env)
+    assert not configuration.IS_API
     app.config.from_object(configuration)
     configuration.configure(app)
     log(log.INFO, "Configuration: [%s]", configuration.ENV)

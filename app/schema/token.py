@@ -1,7 +1,4 @@
 from pydantic import BaseModel
-from config import config
-
-CFG = config()
 
 
 class Token(BaseModel):

@@ -1,7 +1,6 @@
 import os
 from functools import lru_cache
 from pydantic import BaseSettings
-from flask import Flask
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_ENV = os.environ.get("APP_ENV", "development")
@@ -9,6 +8,8 @@ APP_ENV = os.environ.get("APP_ENV", "development")
 
 class BaseConfig(BaseSettings):
     """Base configuration."""
+
+    IS_API: bool = False
 
     ENV: str = "base"
     APP_NAME: str = "Simple Flask App"
@@ -39,7 +40,7 @@ class BaseConfig(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int
 
     @staticmethod
-    def configure(app: Flask):
+    def configure(app):
         # Implement this method to do further configuration on your app.
         pass
 
