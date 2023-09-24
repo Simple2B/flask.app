@@ -11,6 +11,7 @@
     "**/.venv/*/**": true
   },
   "cSpell.words": [
+    "fastapi",
     "flowbite",
     "jsonify",
     "pydantic",

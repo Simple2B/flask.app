@@ -34,6 +34,10 @@ class BaseConfig(BaseSettings):
     DEFAULT_PAGE_SIZE: int
     PAGE_LINKS_NUMBER: int
 
+    # API
+    JWT_SECRET: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     @staticmethod
     def configure(app: Flask):
         # Implement this method to do further configuration on your app.
