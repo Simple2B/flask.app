@@ -99,7 +99,7 @@ class ProductionConfig(BaseConfig):
 
 
 @lru_cache
-def config(name=APP_ENV) -> DevelopmentConfig | TestingConfig | ProductionConfig:
+def config(name: str = APP_ENV) -> DevelopmentConfig | TestingConfig | ProductionConfig:
     CONF_MAP = dict(
         development=DevelopmentConfig(),
         testing=TestingConfig(),
