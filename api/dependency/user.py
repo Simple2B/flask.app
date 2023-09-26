@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 
-from app.api.oauth2 import verify_access_token, INVALID_CREDENTIALS_EXCEPTION
+from api.oauth2 import verify_access_token, INVALID_CREDENTIALS_EXCEPTION
 from app.database import get_db
 import app.models as m
 import app.schema as s
