@@ -12,7 +12,7 @@ else:
 db = Alchemical()
 
 if CFG.IS_API:
-    db.initialize(CFG.ALCHEMICAL_DATABASE_URL)
+    db.initialize(url=CFG.ALCHEMICAL_DATABASE_URL)
 
 
 def get_db() -> Generator[Session, None, None]:
