@@ -23,13 +23,12 @@ def db(test_data: TestData) -> Generator[orm.Session, None, None]:
         db.Model.metadata.drop_all(bind=session.bind)
         db.Model.metadata.create_all(bind=session.bind)
         for test_user in test_data.test_users:
-            session.add(
-                m.User(
-                    username=test_user.username,
-                    email=test_user.email,
-                    password=test_user.password,
-                )
+            user = m.User(
+                username=test_user.username,
+                email=test_user.email,
+                password=test_user.password,
             )
+            session.add(user)
         session.commit()
 
         def override_get_db() -> Generator:
@@ -37,10 +36,12 @@ def db(test_data: TestData) -> Generator[orm.Session, None, None]:
 
         app.dependency_overrides[get_db] = override_get_db
         yield session
+        # clean up
+        db.Model.metadata.drop_all(bind=session.bind)
 
 
 @pytest.fixture
-def client() -> Generator[TestClient, None, None]:
+def client(db) -> Generator[TestClient, None, None]:
     """Returns a non-authorized test client for the API"""
     with TestClient(app) as c:
         yield c
@@ -55,7 +56,6 @@ def test_data() -> Generator[TestData, None, None]:
 def headers(
     client: TestClient,
     test_data: TestData,
-    db,
 ) -> Generator[dict[str, str], None, None]:
     """Returns an authorized test client for the API"""
     user = test_data.test_users[0]
