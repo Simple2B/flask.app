@@ -1,6 +1,3 @@
-from typing import Generator
-
-import pytest
 from pydantic import BaseModel
 
 
