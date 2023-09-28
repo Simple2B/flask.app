@@ -1,15 +1,10 @@
-import datetime
-
-from fastapi import HTTPException, Depends, APIRouter, status
-import sqlalchemy as sa
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import SQLAlchemyError
+from fastapi import Depends, APIRouter, status
 
 import app.models as m
 import app.schema as s
 from app.logger import log
 
-from api.dependency import get_current_user, get_db
+from api.dependency import get_current_user
 
 
 user_router = APIRouter(prefix="/users", tags=["Users"])

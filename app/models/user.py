@@ -1,3 +1,4 @@
+from typing import Self
 from datetime import datetime
 from uuid import uuid4
 
@@ -27,11 +28,11 @@ class User(db.Model, UserMixin, ModelMixin):
         nullable=False,
     )
     email: orm.Mapped[str] = orm.mapped_column(
-        sa.String(255),
+        sa.String(128),
         unique=True,
         nullable=False,
     )
-    password_hash: orm.Mapped[str] = orm.mapped_column(sa.String(255), default="")
+    password_hash: orm.Mapped[str] = orm.mapped_column(sa.String(256), default="")
     activated: orm.Mapped[bool] = orm.mapped_column(sa.Boolean, default=False)
     created_at: orm.Mapped[datetime] = orm.mapped_column(
         sa.DateTime,
@@ -45,6 +46,9 @@ class User(db.Model, UserMixin, ModelMixin):
         sa.String(64),
         default=gen_password_reset_id,
     )
+    is_deleted: orm.Mapped[bool] = orm.mapped_column(
+        sa.Boolean, server_default=sa.false()
+    )
 
     @hybrid_property
     def password(self):
@@ -55,17 +59,24 @@ class User(db.Model, UserMixin, ModelMixin):
         self.password_hash = generate_password_hash(password)
 
     @classmethod
-    def authenticate(cls, user_id, password):
+    def authenticate(
+        cls,
+        user_id,
+        password,
+        session: orm.Session = None,
+    ) -> Self | None:
+        if not session:
+            session = db.session
         query = cls.select().where(
             (sa.func.lower(cls.username) == sa.func.lower(user_id))
             | (sa.func.lower(cls.email) == sa.func.lower(user_id))
         )
-        user = db.session.scalar(query)
+        user = session.scalar(query)
         if not user:
             log(log.WARNING, "user:[%s] not found", user_id)
-
-        if user is not None and check_password_hash(user.password, password):
+        elif check_password_hash(user.password, password):
             return user
+        return None
 
     def reset_password(self):
         self.password_hash = ""

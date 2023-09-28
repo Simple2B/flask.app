@@ -20,6 +20,7 @@ alchemical = "^0.7.1"
 fastapi = "^0.103.1"
 uvicorn = "^0.23.2"
 python-jose = "^3.3.0"
+python-multipart = "^0.0.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
