@@ -88,8 +88,8 @@ class User(db.Model, UserMixin, ModelMixin):
 
     @property
     def json(self):
-        u = s.User.from_orm(self)
-        return u.json()
+        u = s.User.model_validate(self)
+        return u.model_dump_json()
 
 
 class AnonymousUser(AnonymousUserMixin):

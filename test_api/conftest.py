@@ -49,7 +49,9 @@ def client(db) -> Generator[TestClient, None, None]:
 
 @pytest.fixture
 def test_data() -> Generator[TestData, None, None]:
-    yield TestData.parse_file("test_api/test_data.json")
+    """Returns a TestData object"""
+    with open("test_api/test_data.json", "r") as f:
+        yield TestData.model_validate_json(f.read())
 
 
 @pytest.fixture
@@ -67,6 +69,6 @@ def headers(
         },
     )
     assert response.status_code == 200
-    token = s.Token.parse_obj(response.json())
+    token = s.Token.model_validate(response.json())
 
     yield dict(Authorization=f"Bearer {token.access_token}")

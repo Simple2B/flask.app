@@ -15,5 +15,5 @@ def test_get_me(
 ):
     response = client.get("/api/users/me", headers=headers)
     assert response.status_code == 200
-    user = s.User.parse_obj(response.json())
+    user = s.User.model_validate(response.json())
     assert user.username == "user1"
