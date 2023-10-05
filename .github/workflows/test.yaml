@@ -32,12 +32,12 @@ jobs:
         run: |
           poetry run flake8 . --count --show-source --statistics
           poetry run flake8 . --count --exit-zero --max-complexity=10 --statistics
+      - name: Run mypy
+        working-directory: .
+        run: |
+          poetry run mypy
       - name: Run pytest
         working-directory: .
         run: |
           poetry run pytest test_flask
           poetry run pytest test_api
-      - name: Run mypy
-        working-directory: .
-        run: |
-          poetry run mypy

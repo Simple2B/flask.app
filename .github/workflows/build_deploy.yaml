@@ -28,6 +28,7 @@ jobs:
         with:
           reference: 'develop'
           tag: '${{ github.ref }}'
+
   test:
     name: Test
     runs-on: Linux
@@ -52,15 +53,16 @@ jobs:
         run: |
           poetry run flake8 . --count --show-source --statistics
           poetry run flake8 . --count --exit-zero --max-complexity=10 --statistics
+      - name: Run mypy
+        working-directory: .
+        run: |
+          poetry run mypy
       - name: Run pytest
         working-directory: .
         run: |
           poetry run pytest test_flask
           poetry run pytest test_api
-      - name: Run mypy
-        working-directory: .
-        run: |
-          poetry run mypy
+
   build:
     name: Build and Push
     runs-on: Linux
@@ -105,7 +107,8 @@ jobs:
     needs:
       - on-develop-branch-check
       - build
-    if: ${{ needs.on-develop-branch-check.outputs.on_develop == 'true' }}
+    # if: ${{ needs.on-develop-branch-check.outputs.on_develop == 'true' }}
+    if: true
     steps:
       - uses: actions/checkout@v3
       - name: update compose file
