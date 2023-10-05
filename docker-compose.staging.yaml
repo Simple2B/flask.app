@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-passwd}
+      POSTGRES_DB: db
+      PGDATABASE: db
+      PGPASSWORD: ${POSTGRES_PASSWORD:-passwd}
+      PGUSER: ${POSTGRES_USER:-postgres}
+
+  app:
+    image: simple2b/flask-app:0.1
+    restart: always
+    command: sh ./start_web.sh
+    environment:
+      APP_ENV: production
+      ALCHEMICAL_DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-passwd}@db:5432/db
+    depends_on:
+      - db
+    ports:
+      - 127.0.0.1:${LOCAL_WEB_PORT:-8001}:8000
+
+  api:
+    image: simple2b/flask-app:0.1
+    restart: always
+    command: sh ./start_api.sh
+    environment:
+      APP_ENV: production
+      IS_API: "true"
+      ALCHEMICAL_DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-passwd}@db:5432/db
+    depends_on:
+      - db
+    ports:
+      - 127.0.0.1:${LOCAL_API_PORT:-8002}:8000
+
+volumes:
+  db_data:
