@@ -1,9 +1,15 @@
 import os
 from functools import lru_cache
+import tomllib
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_ENV = os.environ.get("APP_ENV", "development")
+
+
+def get_version() -> str:
+    with open("pyproject.toml", "rb") as f:
+        return tomllib.load(f)["tool"]["poetry"]["version"]
 
 
 class BaseConfig(BaseSettings):
@@ -16,6 +22,7 @@ class BaseConfig(BaseSettings):
     SECRET_KEY: str
     SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
     WTF_CSRF_ENABLED: bool = False
+    VERSION: str = get_version()
 
     # Mail config
     MAIL_SERVER: str

@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
+from config import config
 from .routes import router
 
-app = FastAPI()
+CFG = config()
+
+app = FastAPI(version=CFG.VERSION)
 app.include_router(router)
 
 
