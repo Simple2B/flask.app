@@ -128,9 +128,8 @@ jobs:
           key: ${{ env.DEPLOY_SSH_KEY }}
           port: ${{ env.DEPLOY_SSH_PORT }}
           script: |
-            # cd ~/app &&
-            # mv docker-compose.staging.yaml docker-compose.yaml &&
-            # docker-compose pull &&
-            # docker-compose up -d &&
-            # docker system prune -f
-            echo ${{ env.DEPLOY_HOST }} ${{ env.DEPLOY_USER_NAME }}
+            cd ~/app &&
+            mv docker-compose.staging.yaml docker-compose.yaml &&
+            docker compose pull &&
+            docker compose up -d &&
+            docker system prune -f
