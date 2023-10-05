@@ -17,10 +17,10 @@ def get_current_user(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ) -> m.User:
     """Raises an exception if the current user is not authenticated"""
-    token: s.TokenData = verify_access_token(token, INVALID_CREDENTIALS_EXCEPTION)
+    token_data: s.TokenData = verify_access_token(token, INVALID_CREDENTIALS_EXCEPTION)
     user = db.scalar(
         sa.select(m.User).where(
-            m.User.id == token.user_id,
+            m.User.id == token_data.user_id,
             m.User.is_deleted == sa.false(),
         )
     )
@@ -41,7 +41,7 @@ def get_current_user(
 
 def get_user(request: Request, db: Session = Depends(get_db)) -> m.User | None:
     """Raises an exception if the current user is authenticated"""
-    auth_header: str = request.headers.get("Authorization")
+    auth_header = request.headers.get("Authorization")
     if auth_header:
         # Assuming the header value is in the format "Bearer <token>"
         token: s.TokenData = verify_access_token(

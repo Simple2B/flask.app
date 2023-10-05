@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from fastapi import status
 from jose import JWTError, jwt
 from fastapi import HTTPException
+from pydantic import ValidationError
 
 import app.schema as s
 from config import config
@@ -19,9 +20,10 @@ INVALID_CREDENTIALS_EXCEPTION = HTTPException(
 
 
 def create_access_token(user_id: int) -> str:
-    to_encode = dict(user_id=user_id)
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
+    to_encode = s.TokenData(
+        user_id=user_id,
+        exp=datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES),
+    ).model_dump()
 
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY)
 
@@ -31,12 +33,9 @@ def create_access_token(user_id: int) -> str:
 def verify_access_token(token: str, credentials_exception) -> s.TokenData:
     try:
         payload = jwt.decode(token, SECRET_KEY)
-        id: str = payload.get("user_id")
-
-        if not id:
-            raise credentials_exception
-
-        token_data = s.TokenData(user_id=id)
+        token_data = s.TokenData.model_validate(payload)
+    except ValidationError:
+        raise credentials_exception
     except JWTError:
         raise credentials_exception
 

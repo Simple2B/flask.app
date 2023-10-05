@@ -5,7 +5,6 @@ from uuid import uuid4
 from flask_login import UserMixin, AnonymousUserMixin
 import sqlalchemy as sa
 from sqlalchemy import orm
-from sqlalchemy.ext.hybrid import hybrid_property
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.database import db
@@ -50,7 +49,7 @@ class User(db.Model, UserMixin, ModelMixin):
         sa.Boolean, server_default=sa.false()
     )
 
-    @hybrid_property
+    @property
     def password(self):
         return self.password_hash
 
@@ -63,7 +62,7 @@ class User(db.Model, UserMixin, ModelMixin):
         cls,
         user_id,
         password,
-        session: orm.Session = None,
+        session: orm.Session | None = None,
     ) -> Self | None:
         if not session:
             session = db.session
@@ -71,6 +70,7 @@ class User(db.Model, UserMixin, ModelMixin):
             (sa.func.lower(cls.username) == sa.func.lower(user_id))
             | (sa.func.lower(cls.email) == sa.func.lower(user_id))
         )
+        assert session
         user = session.scalar(query)
         if not user:
             log(log.WARNING, "user:[%s] not found", user_id)

@@ -65,9 +65,9 @@ def test_register(client):
         response = client.get(url)
         assert response.status_code == 302
         response.location == url_for("main.index")
-        user: m.User = db.session.query(m.User).filter_by(email=TEST_EMAIL).first()
-        assert user
-        assert user.activated
+        user_db = db.session.scalar(m.User.select().where(m.User.email == TEST_EMAIL))
+        assert user_db
+        assert user_db.activated
 
 
 def test_forgot(client):
@@ -99,18 +99,18 @@ def test_forgot(client):
             b"Password reset successful. For set new password please check your e-mail."
             in response.data
         )
-        user: m.User = db.session.scalar(
+        user_db: m.User = db.session.scalar(
             m.User.select().where(m.User.email == TEST_EMAIL)
         )
-        assert user
+        assert user_db
 
         assert len(outbox) == 1
         letter = outbox[0]
         assert letter.subject == "Reset password"
-        assert ("/password_recovery/" + user.unique_id) in letter.html
+        assert ("/password_recovery/" + user_db.unique_id) in letter.html
 
     response = client.post(
-        "/password_recovery/" + user.unique_id,
+        "/password_recovery/" + user_db.unique_id,
         data=dict(
             password="123456789",
             password_confirmation="123456789",

@@ -7,6 +7,6 @@ class User(BaseModel):
     email: str
     activated: bool = True
 
-    model_config: ConfigDict = {
-        "from_attributes": True,
-    }
+    model_config = ConfigDict(
+        from_attributes=True,
+    )

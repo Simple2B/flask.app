@@ -31,6 +31,9 @@ black = "^22.3.0"
 [tool.poetry.group.dev.dependencies]
 faker = "^18.3.1"
 httpx = "^0.25.0"
+mypy = "^1.5.1"
+types-flask-migrate = "^4.0.0.6"
+types-python-jose = "^3.3.4.8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -43,3 +46,8 @@ filterwarnings = [
     'ignore:.*flask\.Markup.*:DeprecationWarning',
 ]
 testpaths = ["test_flask", "test_api"]
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+files = ["api/**/*.py", "app/**/*.py", "test_api/**/*.py", "test_flask/**/*.py"]
