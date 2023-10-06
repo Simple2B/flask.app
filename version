@@ -33,8 +33,11 @@ git pull
 # goto script directory
 cd "$(dirname "$0")"
 
+# build front-end
+yarn install
+yarn build
 # increment front-end version
-npm version $1
+npm version $1 --no-git-tag-version
 
 if [ $? -ne 0 ]; then
   exit 1
