@@ -10,7 +10,6 @@
       "request": "launch",
       "module": "uvicorn",
       "args": ["api:app", "--reload", "--port", "5002"],
-      "jinja": true,
       "justMyCode": true,
       "env": {
         "IS_API": "true"
