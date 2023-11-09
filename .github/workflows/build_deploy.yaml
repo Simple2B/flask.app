@@ -107,8 +107,7 @@ jobs:
     needs:
       - on-develop-branch-check
       - build
-    # if: ${{ needs.on-develop-branch-check.outputs.on_develop == 'true' }}
-    if: true
+    if: ${{ needs.on-develop-branch-check.outputs.on_develop == 'true' }}
     steps:
       - uses: actions/checkout@v3
       - name: update compose file
