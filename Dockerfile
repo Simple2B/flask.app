@@ -1,4 +1,4 @@
-FROM python:3.11
+FROM python:3.11-slim
 
 # Add user app
 RUN python -m pip install -U pip
@@ -27,4 +27,7 @@ RUN poetry install --no-dev --no-interaction --no-ansi
 RUN poetry add gunicorn
 
 COPY --chown=app:app . .
-RUN chmod +x ./start_server.sh
+RUN chmod +x ./start_web.sh
+RUN chmod +x ./start_api.sh
+
+EXPOSE 8000

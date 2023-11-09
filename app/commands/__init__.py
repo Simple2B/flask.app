@@ -20,7 +20,7 @@ def init(app: Flask):
         @click.option("--count", default=100, type=int)
         def db_populate(count: int):
             """Fill DB by dummy data."""
-            from tests.db import populate
+            from test_flask.db import populate
 
             populate(count)
             print(f"DB populated by {count} instancies")
@@ -36,5 +36,6 @@ def init(app: Flask):
             username=app.config["ADMIN_USERNAME"],
             email=app.config["ADMIN_EMAIL"],
             password=app.config["ADMIN_PASSWORD"],
+            activated=True,
         ).save()
         print("admin created")

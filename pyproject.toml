@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "flask.app"
-version = "0.1.0"
+version = "0.1.6"
 description = ""
 authors = ["denys <denysburimov@gmail.com>"]
 
@@ -15,8 +15,13 @@ python-dotenv = "^1.0.0"
 click = "^8.1.3"
 email-validator = "^1.3.1"
 psycopg2-binary = "^2.9.5"
-pydantic = "^1.10.7"
+pydantic = "^2.4.2"
 alchemical = "^0.7.1"
+fastapi = "^0.103.1"
+uvicorn = "^0.23.2"
+python-jose = "^3.3.0"
+python-multipart = "^0.0.6"
+pydantic-settings = "^2.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
@@ -25,7 +30,24 @@ black = "^22.3.0"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^18.3.1"
+httpx = "^0.25.0"
+mypy = "^1.5.1"
+types-flask-migrate = "^4.0.0.6"
+types-python-jose = "^3.3.4.8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:.*cgi.*:DeprecationWarning",
+    'ignore:.*werkzeug\.urls\.url.*:DeprecationWarning',
+    'ignore:.*flask\.Markup.*:DeprecationWarning',
+]
+testpaths = ["test_flask", "test_api"]
+
+[tool.mypy]
+ignore_missing_imports = true
+check_untyped_defs = true
+files = ["api/**/*.py", "app/**/*.py", "test_api/**/*.py", "test_flask/**/*.py"]

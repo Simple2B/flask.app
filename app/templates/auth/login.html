@@ -12,6 +12,8 @@
           <!-- prettier-ignore -->
           <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign in to {{ config.APP_NAME }}</h2>
           <!-- prettier-ignore -->
+          <span class="text-sm font-normal italic sm:text-sm whitespace-nowrap dark:text-gray-400" >{{ config.VERSION }}</span >
+          <!-- prettier-ignore -->
           <form class="mt-8 space-y-6 from" role="form" action="{{ url_for('auth.login') }}" method="post">
             {{ form.hidden_tag() }}
             <div>

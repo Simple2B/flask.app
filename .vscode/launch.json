@@ -5,6 +5,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "API",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["api:app", "--reload", "--port", "5002"],
+      "justMyCode": true,
+      "env": {
+        "IS_API": "true"
+      }
+    },
+    {
+      "name": "PyTest",
+      "type": "python",
+      "request": "launch",
+      "module": "pytest",
+      "justMyCode": true
+    },
+    {
       "name": "Python: Flask",
       "type": "python",
       "request": "launch",
@@ -17,21 +35,6 @@
       "args": ["run", "--port", "5000"],
       "jinja": true,
       "justMyCode": false
-    },
-    {
-      "name": "Docker: Python - Flask",
-      "type": "docker",
-      "request": "launch",
-      "preLaunchTask": "docker-run: debug",
-      "python": {
-        "pathMappings": [
-          {
-            "localRoot": "${workspaceFolder}",
-            "remoteRoot": "/app"
-          }
-        ],
-        "projectType": "flask"
-      }
     }
   ]
 }

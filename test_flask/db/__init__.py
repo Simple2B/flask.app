@@ -10,7 +10,7 @@ faker = Faker()
 NUM_TEST_USERS = 100
 
 
-def gen_test_items(num_objects: int) -> Generator[str, None, None]:
+def gen_test_items(num_objects: int) -> Generator[tuple[str, str], None, None]:
     from faker import Faker
 
     fake = Faker()

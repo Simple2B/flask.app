@@ -1,20 +1,28 @@
 import os
 from functools import lru_cache
-from pydantic import BaseSettings
-from flask import Flask
+import tomllib
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 APP_ENV = os.environ.get("APP_ENV", "development")
 
 
+def get_version() -> str:
+    with open("pyproject.toml", "rb") as f:
+        return tomllib.load(f)["tool"]["poetry"]["version"]
+
+
 class BaseConfig(BaseSettings):
     """Base configuration."""
+
+    IS_API: bool = False
 
     ENV: str = "base"
     APP_NAME: str = "Simple Flask App"
     SECRET_KEY: str
     SQLALCHEMY_TRACK_MODIFICATIONS: bool = False
     WTF_CSRF_ENABLED: bool = False
+    VERSION: str = get_version()
 
     # Mail config
     MAIL_SERVER: str
@@ -34,14 +42,19 @@ class BaseConfig(BaseSettings):
     DEFAULT_PAGE_SIZE: int
     PAGE_LINKS_NUMBER: int
 
+    # API
+    JWT_SECRET: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     @staticmethod
-    def configure(app: Flask):
+    def configure(app):
         # Implement this method to do further configuration on your app.
         pass
 
-    class Config:
-        # `.env` takes priority over `project.env`
-        env_file = "project.env", ".env"
+    model_config = SettingsConfigDict(
+        extra="allow",
+        env_file=("project.env", ".env.dev", ".env"),
+    )
 
 
 class DevelopmentConfig(BaseConfig):
@@ -51,13 +64,6 @@ class DevelopmentConfig(BaseConfig):
     ALCHEMICAL_DATABASE_URL: str = "sqlite:///" + os.path.join(
         BASE_DIR, "database-dev.sqlite3"
     )
-
-    class Config:
-        fields = {
-            "ALCHEMICAL_DATABASE_URL": {
-                "env": "DEVEL_DATABASE_URL",
-            }
-        }
 
 
 class TestingConfig(BaseConfig):
@@ -69,13 +75,6 @@ class TestingConfig(BaseConfig):
         BASE_DIR, "database-test.sqlite3"
     )
 
-    class Config:
-        fields = {
-            "ALCHEMICAL_DATABASE_URL": {
-                "env": "TEST_DATABASE_URL",
-            }
-        }
-
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""
@@ -83,23 +82,16 @@ class ProductionConfig(BaseConfig):
     ALCHEMICAL_DATABASE_URL: str = os.environ.get(
         "DATABASE_URL", "sqlite:///" + os.path.join(BASE_DIR, "database.sqlite3")
     )
-    WTF_CSRF_ENABLED = True
-
-    class Config:
-        fields = {
-            "ALCHEMICAL_DATABASE_URL": {
-                "env": "DATABASE_URL",
-            }
-        }
+    WTF_CSRF_ENABLED: bool = True
 
 
 @lru_cache
-def config(name=APP_ENV) -> DevelopmentConfig | TestingConfig | ProductionConfig:
+def config(name: str = APP_ENV) -> DevelopmentConfig | TestingConfig | ProductionConfig:
     CONF_MAP = dict(
-        development=DevelopmentConfig(),
-        testing=TestingConfig(),
-        production=ProductionConfig(),
+        development=DevelopmentConfig,
+        testing=TestingConfig,
+        production=ProductionConfig,
     )
-    configuration = CONF_MAP[name]
+    configuration = CONF_MAP[name]()
     configuration.ENV = name
     return configuration
