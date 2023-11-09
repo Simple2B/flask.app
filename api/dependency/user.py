@@ -44,6 +44,7 @@ def get_user(request: Request, db: Session = Depends(get_db)) -> m.User | None:
     auth_header = request.headers.get("Authorization")
     if auth_header:
         # Assuming the header value is in the format "Bearer <token>"
+        assert auth_header.startswith("Bearer ")
         token: s.TokenData = verify_access_token(
             auth_header.split(" ")[1], INVALID_CREDENTIALS_EXCEPTION
         )

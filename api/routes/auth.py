@@ -23,6 +23,7 @@ def login(
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Invalid credentials"
         )
+    log(log.INFO, "User [%s] logged in", user.username)
     return s.Token(access_token=create_access_token(user.id))
 
 
