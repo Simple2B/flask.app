@@ -1,2 +1,2 @@
-# ruff: noqa F401
+# ruff: noqa
 from .pagination import create_pagination
