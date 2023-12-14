@@ -22,6 +22,7 @@ uvicorn = "^0.23.2"
 python-jose = "^3.3.0"
 python-multipart = "^0.0.6"
 pydantic-settings = "^2.0.3"
+ruff = "^0.1.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.1"
@@ -51,3 +52,22 @@ testpaths = ["test_flask", "test_api"]
 ignore_missing_imports = true
 check_untyped_defs = true
 files = ["api/**/*.py", "app/**/*.py", "test_api/**/*.py", "test_flask/**/*.py"]
+
+[tool.ruff]
+exclude = [
+    "__pypackages__",
+    "__pycache__",
+    ".eggs",
+    ".git",
+    ".github",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "dist",
+    "node_modules",
+    "migrations",
+]
+line-length = 120
+indent-width = 4

@@ -13,16 +13,12 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 @router.post("/login", status_code=status.HTTP_200_OK, response_model=s.Token)
-def login(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db=Depends(get_db)
-):
+def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db=Depends(get_db)):
     """Logs in a user"""
     user = m.User.authenticate(form_data.username, form_data.password, session=db)
     if not user:
         log(log.ERROR, "User [%s] wrong username or password", form_data.username)
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid credentials"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid credentials")
     log(log.INFO, "User [%s] logged in", user.username)
     return s.Token(access_token=create_access_token(user.id))
 
@@ -33,7 +29,5 @@ def get_token(auth_data: s.Auth, db=Depends(get_db)):
     user = m.User.authenticate(auth_data.username, auth_data.password, session=db)
     if not user:
         log(log.ERROR, "User [%s] wrong username or password", auth_data.username)
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid credentials"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid credentials")
     return s.Token(access_token=create_access_token(user.id))
