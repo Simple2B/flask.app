@@ -8,9 +8,7 @@ from .routes import router
 
 CFG = config()
 
-app = FastAPI(
-    version=CFG.VERSION, generate_unique_id_function=custom_generate_unique_id
-)
+app = FastAPI(version=CFG.VERSION, generate_unique_id_function=custom_generate_unique_id)
 app.include_router(router)
 
 

@@ -24,5 +24,4 @@
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
   },
-  "editor.defaultFormatter": "charliermarsh.ruff"
 }
