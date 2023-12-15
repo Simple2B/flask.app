@@ -29,20 +29,12 @@ class UserForm(FlaskForm):
     submit = SubmitField("Save")
 
     def validate_username(self, field):
-        query = (
-            m.User.select()
-            .where(m.User.username == field.data)
-            .where(m.User.id != int(self.user_id.data))
-        )
+        query = m.User.select().where(m.User.username == field.data).where(m.User.id != int(self.user_id.data))
         if db.session.scalar(query) is not None:
             raise ValidationError("This username is taken.")
 
     def validate_email(self, field):
-        query = (
-            m.User.select()
-            .where(m.User.email == field.data)
-            .where(m.User.id != int(self.user_id.data))
-        )
+        query = m.User.select().where(m.User.email == field.data).where(m.User.id != int(self.user_id.data))
         if db.session.scalar(query) is not None:
             raise ValidationError("This email is already registered.")
 

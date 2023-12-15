@@ -19,9 +19,7 @@ def create_pagination(total: int, page_size: int = 0) -> s.Pagination:
         elif pages - page <= PAGE_LINKS_NUMBER // 2:
             pages_for_links = [n + 1 for n in range(pages - PAGE_LINKS_NUMBER, pages)]
         else:
-            pages_for_links = list(
-                range(page - PAGE_LINKS_NUMBER // 2, page + PAGE_LINKS_NUMBER // 2)
-            )
+            pages_for_links = list(range(page - PAGE_LINKS_NUMBER // 2, page + PAGE_LINKS_NUMBER // 2))
     else:
         pages_for_links = [n + 1 for n in range(pages)]
 

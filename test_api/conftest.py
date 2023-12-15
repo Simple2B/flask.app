@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv("test_api/test.env")
 
-# flake8: noqa F402
+# ruff: noqa: F401 E402
 from fastapi.testclient import TestClient
 from sqlalchemy import orm
 

@@ -39,10 +39,7 @@ def test_register(client):
 
         assert response
 
-        assert (
-            b"Registration successful. Checkout you email for confirmation!."
-            in response.data
-        )
+        assert b"Registration successful. Checkout you email for confirmation!." in response.data
 
         assert "toast" in response.data.decode()
         assert "toast-success" in response.data.decode()
@@ -95,13 +92,8 @@ def test_forgot(client):
             follow_redirects=True,
         )
 
-        assert (
-            b"Password reset successful. For set new password please check your e-mail."
-            in response.data
-        )
-        user_db: m.User = db.session.scalar(
-            m.User.select().where(m.User.email == TEST_EMAIL)
-        )
+        assert b"Password reset successful. For set new password please check your e-mail." in response.data
+        user_db: m.User = db.session.scalar(m.User.select().where(m.User.email == TEST_EMAIL))
         assert user_db
 
         assert len(outbox) == 1

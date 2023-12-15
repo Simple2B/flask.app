@@ -25,11 +25,7 @@ def get_all():
     query = m.User.select().order_by(m.User.id)
     count_query = sa.select(sa.func.count()).select_from(m.User)
     if q:
-        query = (
-            m.User.select()
-            .where(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
-            .order_by(m.User.id)
-        )
+        query = m.User.select().where(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%")).order_by(m.User.id)
         count_query = (
             sa.select(sa.func.count())
             .where(m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
@@ -41,9 +37,7 @@ def get_all():
     return render_template(
         "user/users.html",
         users=db.session.execute(
-            query.offset((pagination.page - 1) * pagination.per_page).limit(
-                pagination.per_page
-            )
+            query.offset((pagination.page - 1) * pagination.per_page).limit(pagination.per_page)
         ).scalars(),
         page=pagination,
         search_query=q,

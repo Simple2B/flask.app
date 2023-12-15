@@ -44,9 +44,7 @@ def register():
         mail.send(msg)
 
         login_user(user)
-        flash(
-            "Registration successful. Checkout you email for confirmation!.", "success"
-        )
+        flash("Registration successful. Checkout you email for confirmation!.", "success")
     elif form.is_submitted():
         log(log.WARNING, "Form submitted error: [%s]", form.errors)
         flash("The given data was invalid.", "danger")
@@ -138,9 +136,7 @@ def forgot_pass():
     return render_template("auth/forgot.html", form=form)
 
 
-@auth_blueprint.route(
-    "/password_recovery/<reset_password_uid>", methods=["GET", "POST"]
-)
+@auth_blueprint.route("/password_recovery/<reset_password_uid>", methods=["GET", "POST"])
 def password_recovery(reset_password_uid):
     if current_user.is_authenticated:
         return redirect(url_for("main.index"))

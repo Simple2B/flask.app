@@ -55,7 +55,5 @@ class ChangePasswordForm(FlaskForm):
         ],
         render_kw={"placeholder": "Password"},
     )
-    password_confirmation = PasswordField(
-        "Repeat Password", render_kw={"placeholder": "Repeat Password"}
-    )
+    password_confirmation = PasswordField("Repeat Password", render_kw={"placeholder": "Repeat Password"})
     submit = SubmitField("Change password")
