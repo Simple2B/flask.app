@@ -4,6 +4,7 @@
   <div class="relative w-full max-w-2xl max-h-full">
     <!-- Modal content -->
     <form action="{{url_for('user.create')}}" method="post" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
       <!-- Modal header -->
       <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
         <h3 class="text-xl font-semibold text-gray-900 dark:text-white"> Add new user </h3>
@@ -28,9 +29,9 @@
             <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Confirm Password</label >
             <input type="password" name="password_confirmation" id="user-add-password_confirmation" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
           </div>
-          <div class="col-span-full">
+          <div >
             <label for="activated" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Activated</label >
-            <input type="checkbox" name="activated" id="user-add-activated" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+              <input type="checkbox" name="activated" id="user-add-activated" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block  p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
           </div>
         </div>
       </div>

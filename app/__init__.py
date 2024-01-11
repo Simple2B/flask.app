@@ -5,6 +5,7 @@ from flask_login import LoginManager
 from werkzeug.exceptions import HTTPException
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
 
 from app.logger import log
 from .database import db
@@ -13,6 +14,7 @@ from .database import db
 login_manager = LoginManager()
 migration = Migrate()
 mail = Mail()
+csrf = CSRFProtect()
 
 
 def create_app(environment="development"):
@@ -40,6 +42,7 @@ def create_app(environment="development"):
     migration.init_app(app, db)
     login_manager.init_app(app)
     mail.init_app(app)
+    csrf.init_app(app)
 
     # Register blueprints.
     app.register_blueprint(auth_blueprint)
