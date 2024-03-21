@@ -1,4 +1,10 @@
 import 'flowbite';
+import { initDismisses } from 'flowbite';
+
+export interface HTMXEventDetail {
+  xhr: XMLHttpRequest;
+  target: HTMLElement;
+}
 
 const themeToggleDarkIcons = document.querySelectorAll(
   '#theme-toggle-dark-icon',
@@ -58,4 +64,22 @@ themeToggleButtons.forEach(function (themeToggleBtn) {
       }
     }
   });
+});
+
+const backgroundElement = document.getElementById('custom-modal-content').parentElement;
+backgroundElement.addEventListener('click', () => {
+  if (!backgroundElement.classList.contains('hidden')) {
+    backgroundElement.classList.add('hidden')
+  }
+})
+
+document.addEventListener('htmx:afterSwap', (e:  CustomEvent<HTMXEventDetail>) => {
+  if ([404, 202].includes(e.detail.xhr.status)) {
+    initDismisses();
+    return
+  } 
+  if (backgroundElement.classList.contains('hidden')) {
+    backgroundElement.classList.remove('hidden')
+  }
+
 });

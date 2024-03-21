@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Chrome",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://localhost:5000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
       "name": "API",
       "type": "python",
       "request": "launch",
