@@ -24,9 +24,9 @@ bp = Blueprint("user", __name__, url_prefix="/user")
 @login_required
 def get_all():
     q = request.args.get("q", type=str, default=None)
-    where = sa.and_(m.User.is_deleted.is_(False))
+    where = m.User.is_deleted.is_(False)
     if q:
-        where = sa.and_(where, m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))
+        where = sa.and_(where, m.User.username.like(f"{q}%") | m.User.email.like(f"{q}%"))  # type: ignore
 
     query = sa.select(m.User).where(where).order_by(m.User.id)
     count_query = sa.select(sa.func.count()).select_from(m.User).where(where)
