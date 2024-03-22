@@ -76,6 +76,7 @@ def save():
         if form.password.data.strip("*\n "):
             user.password = form.password.data
         user.save()
+        flash("User updated!", "success")
         if form.next_url.data:
             return redirect(form.next_url.data)
         return redirect(url_for("user.get_all"))
