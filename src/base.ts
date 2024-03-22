@@ -66,10 +66,10 @@ themeToggleButtons.forEach(function (themeToggleBtn) {
   });
 });
 
-const backgroundElement = document.getElementById('custom-modal-content').parentElement;
-backgroundElement.addEventListener('click', () => {
-  if (!backgroundElement.classList.contains('hidden')) {
-    backgroundElement.classList.add('hidden')
+const backgroundModalElement = document.getElementById('custom-modal-content').parentElement;
+backgroundModalElement.addEventListener('click', () => {
+  if (!backgroundModalElement.classList.contains('hidden')) {
+    backgroundModalElement.classList.add('hidden')
   }
 })
 
@@ -78,8 +78,8 @@ document.addEventListener('htmx:afterSwap', (e:  CustomEvent<HTMXEventDetail>) =
     initDismisses();
     return
   } 
-  if (backgroundElement.classList.contains('hidden')) {
-    backgroundElement.classList.remove('hidden')
+  if (backgroundModalElement.classList.contains('hidden')) {
+    backgroundModalElement.classList.remove('hidden')
   }
 
 });
