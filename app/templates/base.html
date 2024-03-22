@@ -33,7 +33,7 @@
     {% endblock %}
   </head>
 
-  <body class="bg-white dark:bg-gray-800">
+  <body hx-ext="response-targets" class="bg-white dark:bg-gray-800">
     <!-- Header -->
     <!-- prettier-ignore -->
     {% include 'header.html' %}
@@ -57,7 +57,7 @@
     <!-- prettier-ignore -->
     {% include 'sidebar.html' %}
     
-    <div  class="sm:ml-64 mt-14 h-full overflow-x-scroll">
+    <div class="sm:ml-64 mt-14 h-full overflow-x-scroll">
       <!-- Main Content -->
       {% block content %}{% endblock %}
     </div>
@@ -69,10 +69,10 @@
   </div>
   <script src="{{ url_for('static', filename='js/base.js') }}" type="text/javascript" defer></script>
   
-  <div hx-ext="response-targets" id="not-found"></div>
+  <div id="not-found"></div>
   {% include 'spinner.html' %}
-  {% include 'modal.html' %}
 
   {% block scripts %} {% endblock %}
+
 </body>
 </html>

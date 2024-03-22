@@ -1,5 +1,4 @@
 import 'flowbite';
-import { initDismisses } from 'flowbite';
 
 export interface HTMXEventDetail {
   xhr: XMLHttpRequest;
@@ -64,22 +63,4 @@ themeToggleButtons.forEach(function (themeToggleBtn) {
       }
     }
   });
-});
-
-const backgroundModalElement = document.getElementById('custom-modal-content').parentElement;
-backgroundModalElement.addEventListener('click', () => {
-  if (!backgroundModalElement.classList.contains('hidden')) {
-    backgroundModalElement.classList.add('hidden')
-  }
-})
-
-document.addEventListener('htmx:afterSwap', (e:  CustomEvent<HTMXEventDetail>) => {
-  if ([404, 202].includes(e.detail.xhr.status)) {
-    initDismisses();
-    return
-  } 
-  if (backgroundModalElement.classList.contains('hidden')) {
-    backgroundModalElement.classList.remove('hidden')
-  }
-
 });
