@@ -66,8 +66,8 @@ class User(db.Model, UserMixin, ModelMixin):
             | (sa.func.lower(cls.email) == sa.func.lower(user_id))
         )
         assert session
-        user = session.scalar(query)
-        if not user:
+        user: Self | None = session.scalar(query)
+        if not user or user.is_deleted:
             log(log.WARNING, "user:[%s] not found", user_id)
         elif check_password_hash(user.password, password):
             return user

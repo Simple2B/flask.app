@@ -127,8 +127,10 @@ def delete(user_uuid: str):
         log(log.INFO, "There is no user with id: [%s]", id)
         return render_template("toast.html", category="danger", message="User not found"), 404
 
+    datetime_now = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
     user.is_deleted = True
-    user.username = f"deleted_{user.username}_at_{datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}"
+    user.username = f"deleted_{user.username}_at_{datetime_now}"
+    user.email = f"deleted_{user.email}_at_{datetime_now}"
     db.session.commit()
     log(log.INFO, "User deleted. User: [%s]", user)
     return render_template("toast.html", category="success", message="User deleted!"), 202

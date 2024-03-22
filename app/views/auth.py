@@ -90,7 +90,7 @@ def activate(reset_password_uid):
     query = m.User.select().where(m.User.unique_id == reset_password_uid)
     user: m.User | None = db.session.scalar(query)
 
-    if not user:
+    if not user or user.is_deleted:
         log(log.INFO, "User not found")
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
@@ -145,7 +145,7 @@ def password_recovery(reset_password_uid):
     query = m.User.select().where(m.User.unique_id == reset_password_uid)
     user: m.User = db.session.scalar(query)
 
-    if not user:
+    if not user or user.is_deleted:
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
 
