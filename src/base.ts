@@ -1,5 +1,10 @@
 import 'flowbite';
 
+export interface HTMXEventDetail {
+  xhr: XMLHttpRequest;
+  target: HTMLElement;
+}
+
 const themeToggleDarkIcons = document.querySelectorAll(
   '#theme-toggle-dark-icon',
 );

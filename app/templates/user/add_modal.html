@@ -1,0 +1,78 @@
+<div tabindex="-1"
+    hx-trigger="click" hx-swap="delete" hx-get="{{url_for('main.no_content')}}"
+    class="fixed bg-opacity-80 bg-gray-600 top-0 left-0 right-0 z-50 items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-full max-h-full justify-end items-end flex">
+    <div class="rounded-lg relative w-full max-w-2xl max-h-full bg-white" onclick="event.stopPropagation();" >
+        <form action="{{url_for('user.create')}}" method="post"
+            class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            {{ form.hidden_tag() }}
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add new user
+                </h3>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="username"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        {{ form.username(class_='shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        rounded-lg
+                        focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600
+                        dark:border-gray-500
+                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500')
+                        }}
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="email"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        {{ form.email(class_="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        rounded-lg
+                        focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600
+                        dark:border-gray-500
+                        dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500")
+                        }}
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="password_confirmation"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        {{ form.password(class_=" shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600
+                        dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+                        dark:focus:border-blue-500
+                        pe-10 p-2.5
+                        ") }}
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="password_confirmation"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
+                            Password</label>
+                        {{ form.password_confirmation(class_="w-full pe-10 p-2.5 shadow-sm bg-gray-50 border
+                        border-gray-300
+                        text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5
+                        dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
+                        dark:focus:ring-blue-500 dark:focus:border-blue-500
+                        ") }}
+                    </div>
+                    <div>
+                        <label for="activated"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activated</label>
+                        {{ form.activated(class_="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm
+                        rounded-lg
+                        focus:ring-blue-600 focus:border-blue-600 block p-2.5 dark:bg-gray-600 dark:border-gray-500
+                        dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500")
+                        }}
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button name="submit" type="submit"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    Save new user
+                </button>
+            </div>
+        </form>
+    </div>

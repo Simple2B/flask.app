@@ -330,13 +330,11 @@
                 >
               </li>
               <li>
-                <a
-                  href="#"
+                <button
+                  hx-target="#custom-modal-content"  hx-trigger="click" hx-swap="innerHTML" hx-get="{{ url_for('user.get_edit_form', user_uuid=current_user.uuid) }}"
                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                   role="menuitem"
-                  data-modal-target="editCurrentUserModal"
-                  data-modal-show="editCurrentUserModal"
-                  >Settings</a
+                  >Settings</button
                 >
               </li>
               <li>
@@ -355,4 +353,3 @@
     </div>
   </div>
 </nav>
-{% include 'user/edit_current.html' %}

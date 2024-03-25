@@ -6,6 +6,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import models as m
 from app import forms as f
 from app import mail, db
+from app.utils import gen_uuid
 from app.logger import log
 
 
@@ -89,13 +90,13 @@ def activate(reset_password_uid):
     query = m.User.select().where(m.User.unique_id == reset_password_uid)
     user: m.User | None = db.session.scalar(query)
 
-    if not user:
+    if not user or user.is_deleted:
         log(log.INFO, "User not found")
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
 
     user.activated = True
-    user.unique_id = m.user.gen_password_reset_id()
+    user.unique_id = gen_uuid()
     user.save()
 
     flash("Welcome!", "success")
@@ -144,7 +145,7 @@ def password_recovery(reset_password_uid):
     query = m.User.select().where(m.User.unique_id == reset_password_uid)
     user: m.User = db.session.scalar(query)
 
-    if not user:
+    if not user or user.is_deleted:
         flash("Incorrect reset password link", "danger")
         return redirect(url_for("main.index"))
 
@@ -153,7 +154,7 @@ def password_recovery(reset_password_uid):
     if form.validate_on_submit():
         user.password = form.password.data
         user.activated = True
-        user.unique_id = m.gen_password_reset_id()
+        user.unique_id = gen_uuid()
         user.save()
         login_user(user)
         flash("Login successful.", "success")

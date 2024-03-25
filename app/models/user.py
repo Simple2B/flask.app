@@ -1,6 +1,5 @@
 from typing import Self
 from datetime import datetime
-from uuid import uuid4
 
 from flask_login import UserMixin, AnonymousUserMixin
 import sqlalchemy as sa
@@ -11,16 +10,14 @@ from app.database import db
 from .utils import ModelMixin
 from app.logger import log
 from app import schema as s
-
-
-def gen_password_reset_id() -> str:
-    return str(uuid4())
+from app.utils import gen_uuid
 
 
 class User(db.Model, UserMixin, ModelMixin):
     __tablename__ = "users"
 
     id: orm.Mapped[int] = orm.mapped_column(primary_key=True)
+    uuid: orm.Mapped[str] = orm.mapped_column(sa.String(36), default=gen_uuid, index=True)
     username: orm.Mapped[str] = orm.mapped_column(
         sa.String(64),
         unique=True,
@@ -39,11 +36,11 @@ class User(db.Model, UserMixin, ModelMixin):
     )
     unique_id: orm.Mapped[str] = orm.mapped_column(
         sa.String(36),
-        default=gen_password_reset_id,
+        default=gen_uuid,
     )
     reset_password_uid: orm.Mapped[str] = orm.mapped_column(
         sa.String(64),
-        default=gen_password_reset_id,
+        default=gen_uuid,
     )
     is_deleted: orm.Mapped[bool] = orm.mapped_column(sa.Boolean, server_default=sa.false())
 
@@ -69,8 +66,8 @@ class User(db.Model, UserMixin, ModelMixin):
             | (sa.func.lower(cls.email) == sa.func.lower(user_id))
         )
         assert session
-        user = session.scalar(query)
-        if not user:
+        user: Self | None = session.scalar(query)
+        if not user or user.is_deleted:
             log(log.WARNING, "user:[%s] not found", user_id)
         elif check_password_hash(user.password, password):
             return user
@@ -78,7 +75,7 @@ class User(db.Model, UserMixin, ModelMixin):
 
     def reset_password(self):
         self.password_hash = ""
-        self.reset_password_uid = gen_password_reset_id()
+        self.reset_password_uid = gen_uuid()
         self.save()
 
     def __repr__(self):

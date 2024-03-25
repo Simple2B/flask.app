@@ -45,9 +45,21 @@ def test_populate_db(runner: FlaskCliRunner):
     assert (db.session.query(m.User).count() - count_before) == TEST_COUNT
 
 
+def test_edit_user(populate: FlaskClient):
+    login(populate)
+    user: m.User = db.session.scalar(m.User.select())
+    response = populate.get(f"/user/get-edit-form/{user.uuid}")
+    assert response.status_code == 200
+    assert user.username in response.data.decode()
+    assert user.email in response.data.decode()
+    assert user.uuid in response.data.decode()
+    assert user.password not in response.data.decode()
+
+
 def test_delete_user(populate: FlaskClient):
     login(populate)
+    user: m.User = db.session.scalar(m.User.select())
     uc = db.session.query(m.User).count()
-    response = populate.delete("/user/delete/1")
-    assert db.session.query(m.User).count() < uc
-    assert response.status_code == 200
+    response = populate.delete(f"/user/delete/{user.uuid}")
+    assert db.session.query(m.User).filter(m.User.is_deleted.is_(False)).count() < uc
+    assert response.status_code == 202
