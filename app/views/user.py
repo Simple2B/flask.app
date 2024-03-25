@@ -45,7 +45,7 @@ def get_all():
 @bp.route("/get-edit-form/<user_uuid>", methods=["GET"])
 @login_required
 def get_edit_form(user_uuid: str):
-    """htmx reauest"""
+    """htmx request"""
     user: m.User | None = db.session.scalar(m.User.select().where(m.User.uuid == user_uuid))
     if not user or user.is_deleted:
         log(log.ERROR, "User not found by id: [%s]", user_uuid)
@@ -91,7 +91,7 @@ def save():
 @bp.route("/get-add-form", methods=["GET"])
 @login_required
 def get_add_form():
-    """htmx reauest"""
+    """htmx request"""
     form = f.NewUserForm()
     return render_template("user/add_modal.html", form=form)
 
@@ -121,7 +121,7 @@ def create():
 @bp.route("/delete/<user_uuid>", methods=["DELETE"])
 @login_required
 def delete(user_uuid: str):
-    """htmx reauest"""
+    """htmx request"""
     user = db.session.scalar(sa.select(m.User).where(m.User.uuid == user_uuid))
     if not user or user.is_deleted:
         log(log.INFO, "There is no user with id: [%s]", id)

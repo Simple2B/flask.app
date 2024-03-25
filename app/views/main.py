@@ -13,5 +13,5 @@ def index():
 
 @main_blueprint.route("/no-content")
 def no_content():
-    """htmx reauest"""
+    """htmx request"""
     return "", 200
